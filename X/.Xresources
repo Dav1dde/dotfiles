@@ -1,0 +1,61 @@
+!! URxvt
+! special
+URxvt.foreground:   #eaeaea
+URxvt.background:   #151515
+URxvt.cursorColor:  #ffffff
+! black
+URxvt.color0:       #121212
+URxvt.color8:       #555555
+! red
+URxvt.color1:       #fa2573
+URxvt.color9:       #f6669d
+! green
+! URxvt.color2:       #98e123
+URxvt.color2:       #9cff00
+URxvt.color10:      #b1e05f
+! yellow
+URxvt.color3:       #dfd460
+URxvt.color11:      #fff26d
+! blue
+URxvt.color4:       #1080d0
+URxvt.color12:      #00afff
+! magenta
+URxvt.color5:       #8700ff
+URxvt.color13:      #af87ff
+! cyan
+URxvt.color6:       #43a8d0
+URxvt.color14:      #51ceff
+! white
+URxvt.color7:       #bbbbbb
+URxvt.color15:      #ffffff
+
+URxvt.font:         xft:Hack:pixelsize=11, \
+                    xft:DejaVuSansMono Nerd Font:style=Book:antialias=false:pixelsize=11
+!URxvt.boldFont:     xft:Hack:pixelsize=11:weight=bold
+!URxvt.italicFont:   xft:Hack:pixelsize=11:slant=italic
+
+
+URxvt.saveLines: 10000
+URxvt.scrollBar: false
+URxvt.secondaryScroll: true
+! do not scroll with output
+URxvt*scrollTtyOutput: false
+! scroll in relation to buffer (with mouse scroll or Shift+Page Up)
+URxvt*scrollWithBuffer: true
+! scroll back to the bottom on keypress
+URxvt*scrollTtyKeypress: true
+
+! Extensions
+URxvt.perl-ext-common: default,matcher
+URxvt.url-launcher: /usr/bin/xdg-open
+URxvt.matcher.button: 1
+URxvt.matcher.rend.0: Uline
+
+
+!! Rofi
+rofi.color-enabled: true
+rofi.color-window: #2d3238, #273238, #1e2529
+rofi.color-normal: #2d3238, #c1c1c1, #2d3238, #394249, #ffffff
+rofi.color-active: #2d3238, #80cbc4, #2d3238, #394249, #80cbc4
+rofi.color-urgent: #2d3238, #ff1844, #2d3238, #394249, #ff1844
+

@@ -1,0 +1,31 @@
+#!/bin/sh
+
+set -e
+
+[ -z "$1" ] && echo "worskpace required" && exit 1
+
+DIRECTORY="$HOME/.config/i3/workspace"
+
+CURRENT_WORKSAPCE="$(i3-msg -t get_workspaces | jq -r '.[] | select(.focused==true).name')"
+TARGET_WORKSPACE=${1}
+PROFILE=${2:-"default"}
+
+LAYOUT="${DIRECTORY}/workspace-${TARGET_WORKSPACE}-${PROFILE}.json"
+STARTUP="${DIRECTORY}/workspace-${TARGET_WORKSPACE}-${PROFILE}.sh"
+
+[ ! -f "${LAYOUT}" ] && echo "no layout configured for workspace ${TARGET_WORKSPACE} and profile ${PROFILE}" && exit 1 
+
+
+i3-msg "workspace --no-auto-back-and-forth ${TARGET_WORKSPACE}" 
+
+# Clear workspace
+i3-msg "focus parent, focus parent, focus parent, focus parent, focus parent, focus parent, focus parent, focus parent, focus parent, focus parent, kill"
+
+# Repopulate workspace
+echo "CURRENT -> $CURRENT_WORKSAPCE"
+i3-msg "append_layout ${LAYOUT}"
+[ -f "${STARTUP}" ] && ${STARTUP}
+
+# Refocus old workspace
+i3-msg "workspace --no-auto-back-and-forth ${CURRENT_WORKSAPCE}"
+

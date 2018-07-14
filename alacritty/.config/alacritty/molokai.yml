@@ -1,0 +1,34 @@
+# Colors (Molokai)
+colors:
+  # Default colors
+  primary:
+    background: '0x151515'
+    foreground: '0xeaeaea'
+
+  # Colors the cursor will use if `custom_cursor_colors` is true
+  cursor:
+    text: '0x000000'
+    cursor: '0xffffff'
+
+  # Normal colors
+  normal:
+    black:   '0x121212'
+    red:     '0xfa2573'
+    # green:   '0x98e123' # Correct Molokai colour
+    green:   '0x9cff00' # Better looking colour
+    yellow:  '0xdfd460'
+    blue:    '0x1080d0'
+    magenta: '0x8700ff'
+    cyan:    '0x43a8d0'
+    white:   '0xbbbbbb'
+
+  # Bright colors
+  bright:
+    black:   '0x555555'
+    red:     '0xf6669d'
+    green:   '0xb1e05f'
+    yellow:  '0xfff26d'
+    blue:    '0x00afff'
+    magenta: '0xaf87ff'
+    cyan:    '0x51ceff'
+    white:   '0xffffff'
