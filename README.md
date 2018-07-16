@@ -89,7 +89,7 @@ is rather minimal and can be found in [`X/.Xresources`](X/.Xresources), it was a
 bit of a pita to get the font rendering to work (having Hack as a font with
 all required glyphs for powerline/airline).
 
-The color schme is a slightely modified molokai scheme.
+The color scheme is a slightely modified molokai scheme.
 
 ### Zsh
 
@@ -130,4 +130,12 @@ then looks for the i3 layout file in
 to `${WORKSPACE}` afterwards it launches the file
 `~/.config/i3/workspace/workspace-${WORKSPACE}-${PROFILE:-default}.sh` which can be
 used to populate the newly created workspace/layout.
+
+## Chrome Extensions
+
+[`.chrome`] contains custom Chrome/Chromium extensions, these can be installed via
+the Chrome extension manager as an unpacked extension.
+
+Currently the only purpose of these extensions is to make web applications better
+integrate with the system.
 

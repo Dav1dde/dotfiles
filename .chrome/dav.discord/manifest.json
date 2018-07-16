@@ -1,0 +1,21 @@
+{
+    "manifest_version": 2,
+    "content_scripts": [
+        {
+            "exclude_globs": [],
+            "include_globs": [
+                "*"
+            ],
+            "js": [
+                "discord.notifications.user.js"
+            ],
+            "matches": [
+                "*://discordapp.com/*"
+            ],
+            "run_at": "document_end"
+        }
+    ],
+    "description": "custom extensions/modifications for discord",
+    "name": "dav.discord",
+    "version": "1"
+}
