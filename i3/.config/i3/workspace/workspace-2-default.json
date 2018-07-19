@@ -13,7 +13,6 @@
             "nodes": [
                 {
                     "name": "Discord",
-                    "percent": 0.5,
                     "swallows": [
                        {
                           "class": "^Chromium$",
@@ -26,8 +25,20 @@
                     "type": "con"
                 },
                 {
+                    "name": "Signal",
+                    "swallows": [
+                       {
+                          "class": "^Chromium$",
+                          "instance": "^crx_bikioccmkafdpakkkcpdbppfkghcmihk$"
+                       // "title": "^Signal$"
+                       // "transient_for": "^$",
+                       // "window_role": "^app$"
+                       }
+                    ],
+                    "type": "con"
+                },
+                {
                     "name": "The Lounge",
-                    "percent": 0.5,
                     "swallows": [
                        {
                           "class": "^Chromium$",

@@ -22,7 +22,6 @@ i3-msg "workspace --no-auto-back-and-forth ${TARGET_WORKSPACE}"
 i3-msg "focus parent, focus parent, focus parent, focus parent, focus parent, focus parent, focus parent, focus parent, focus parent, focus parent, kill"
 
 # Repopulate workspace
-echo "CURRENT -> $CURRENT_WORKSAPCE"
 i3-msg "append_layout ${LAYOUT}"
 [ -f "${STARTUP}" ] && ${STARTUP}
 
