@@ -31,6 +31,7 @@ Plugin 'scrooloose/syntastic'
 
 " Code Display
 Plugin 'flazz/vim-colorschemes'
+Plugin 'luochen1990/rainbow'
 
 " Editing
 Plugin 'tpope/vim-surround'
@@ -49,6 +50,15 @@ let g:ycm_server_python_interpreter = '/usr/bin/python2'
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'wombat'
 let g:airline#extensions#tabline#enabled = 1
+
+" CtrlP
+let g:ctrlp_custom_ignore = {
+    \ 'dir':  '\v[\/](\.(git|hg|svn))|(ownCloud|node_modules|target|dist|__pycache__)$',
+    \ 'file': '\v\.(pyc|pyo|o|a|so|exe|dll|png|jpeg|jpg|desktop|bin)$'
+    \ }
+
+" Rainbow
+let g:rainbow_active = 1
 
 " Vim
 syntax on
