@@ -181,22 +181,11 @@ bindsym $mod+r mode "resize"
 ## Window Configuration
 force_display_urgency_hint 500 ms
 
-# Alerts/Notifications
-set $tnormal "%title"
-set $timportant "<span foreground='#ff2400' weight='bold'>%title</span>"
-
-# Lounge
-for_window [title="^[^(].*The Lounge$"]    title_format $tnormal
-for_window [title="^\(\d+\).*The Lounge$"] title_format $timportant
-# Discord
-for_window [title="^[^*][^\s].*$" instance="discordapp.com__app"]  title_format $tnormal
-for_window [title="^\*\s.*$" instance="discordapp.com__app"]       title_format $timportant
-
 ## Starting things with i3
-exec xrdb ~/.Xresources # mainly required for urxvt and rofi
-exec compton -fb --backend glx --vsync opengl & # compositing
-exec nitrogen --restore # wallpapers
-exec urxvtd -q -o -f
+exec --no-startup-id xrdb ~/.Xresources # mainly required for urxvt and rofi
+exec --no-startup-id compton -fb --backend glx --vsync opengl & # compositing
+exec --no-startup-id nitrogen --restore # wallpapers
+exec --no-startup-id urxvtd -q -o -f
 
 ## Plasma Integration
 # Try to kill the wallpaper set by Plasma (it takes up the entire workspace and hides everythiing)
