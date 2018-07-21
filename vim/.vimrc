@@ -26,7 +26,6 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'tpope/vim-fugitive'
 
 " Code Completion/Syntax
-"Plugin 'valloric/youcompleteme'
 Plugin 'scrooloose/syntastic'
 
 " Code Display
@@ -42,20 +41,25 @@ Plugin 'felixhummel/setcolors.vim'
 call vundle#end()
 
 "" Settings
-" YCM
-let g:ycm_global_ycm_extra_conf = '/usr/share/vim/vimfiles/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-let g:ycm_server_python_interpreter = '/usr/bin/python2'
+" Snytastic
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_loc_list_height = 5
 
 " Airline
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'wombat'
+
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#syntastic#enabled = 1
 
 " CtrlP
 let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/](\.(git|hg|svn))|(ownCloud|node_modules|target|dist|__pycache__)$',
-    \ 'file': '\v\.(pyc|pyo|o|a|so|exe|dll|png|jpeg|jpg|desktop|bin)$'
-    \ }
+            \ 'dir':  '\v[\/](\.(git|hg|svn))|(ownCloud|node_modules|target|dist|__pycache__)$',
+            \ 'file': '\v\.(pyc|pyo|o|a|so|exe|dll|png|jpeg|jpg|desktop|bin)$'
+            \ }
 
 " Rainbow
 let g:rainbow_active = 1
