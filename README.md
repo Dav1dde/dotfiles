@@ -28,7 +28,7 @@ A random list of dependencies, not all are required, just pick what you want.
 * zsh
 * urxvt / alacritty
 * Hack and `Dejavu Sans Mono Nerd Font Complete`
-* vim (e.g. Vundle)
+* vim (e.g. Vundle, YCM)
 
 
 ## Desktop

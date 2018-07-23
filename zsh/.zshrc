@@ -57,6 +57,7 @@ export UPL_URL="http://files.dav1d.de/"
 export VP_URL="http://paste.dav1d.de"
 
 export PYPY_IRC_TOPIC=1
+export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src
 
 export SAVEHIST=500000
 export HISTSIZE=500000
