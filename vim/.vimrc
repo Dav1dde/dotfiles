@@ -23,6 +23,7 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'sjl/gundo.vim'
+Plugin 'jaxbot/semantic-highlight.vim'
 
 "Plugin 'mkitt/tabline.vim'
 
@@ -32,7 +33,6 @@ Plugin 'tpope/vim-fugitive'
 " Code Completion/Syntax
 " Plugin 'scrooloose/syntastic'
 Plugin 'rust-lang/rust.vim'
-Plugin 'racer-rust/vim-racer'
 
 " Code Display
 Plugin 'flazz/vim-colorschemes'
@@ -75,7 +75,6 @@ let g:ctrlp_custom_ignore = {
 let g:rainbow_active = 1
 
 " Rust
-let g:rustfmt_autosave = 1
 let g:racer_cmd = "/usr/bin/racer"
 
 " Vim
@@ -123,20 +122,37 @@ autocmd FocusLost * :wa
 "" Mappings
 let mapleader=" "
 
+" alias :W to :w
+" https://stackoverflow.com/a/3879737/969534
+cnoreabbrev <expr> W ((getcmdtype() is# ':' && getcmdline() is# 'W')?('w'):('W'))
+
+" Make special Tab escapes work in vim
+map <Esc>[27;5;9~ <C-Tab>
+map <Esc>[27;6;9~ <C-S-Tab>
+
+" Open graphical undo browser
 nnoremap <leader>u :GundoToggle<CR>
-
 " Cleanup trailing whitespaces
-nnoremap <leader><space> :%s/\s\+$//<CR>:let @/=''<CR>
-
+nnoremap <silent> <leader><space> :%s/\s\+$//<CR>:let @/=''<CR>:w<CR>
 " quick buffer navigation (similar to IntelliJ Ctrl+E)
 nnoremap <leader><C-e> :CtrlPBuffer<CR>
 " Jump to tag/implementation
-" TODO swap this with YCM Goto* where Goto is available
-nnoremap <leader><C-b> <C-]>
+nnoremap <leader><C-b> :YcmCompleter GoTo<CR>
+nnoremap <C-b> :YcmCompleter GoTo<CR>
 " Swap between brackets with tab
 nnoremap <tab> %
 vnoremap <tab> %
+" Close current buffer with Ctrl+W
+nnoremap <C-w> :bd<CR>
+" Swap to previous buffer with Shift+Tab
+nnoremap <C-Tab> :b#<CR>
 
 " turn off search indicators
 nnoremap <silent> <leader>n :silent :nohlsearch<CR>
 
+augroup rust
+    autocmd FileType rust nnoremap <F9> :w<CR>:!cargo run<CR>
+    autocmd FileType rust inoremap <F9> <ESC>:w<CR>:!cargo run<CR>
+
+    autocmd FileType rust nnoremap <leader>f :RustFmt<CR>
+augroup END

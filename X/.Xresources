@@ -51,6 +51,15 @@ URxvt.url-launcher: /usr/bin/xdg-open
 URxvt.matcher.button: 1
 URxvt.matcher.rend.0: Uline
 
+! Ctrl+Tab support in Vim
+! https://github.com/rafi/.config/blob/master/xorg/Xresources
+!URxvt.keysym.S-Return:         \033[13;2u
+!URxvt.keysym.C-Return:         \033[13;5u
+!URxvt.keysym.C-i:              \033[105;5u
+!URxvt.keysym.C-S-i:            \033[73;5u
+URxvt*keysym.C-Tab:            \033[27;5;9~
+URxvt*keysym.C-S-Tab:          \033[27;6;9~
+
 
 !! Rofi
 rofi.color-enabled: true
