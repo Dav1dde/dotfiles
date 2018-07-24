@@ -186,6 +186,7 @@ exec --no-startup-id xrdb ~/.Xresources # mainly required for urxvt and rofi
 exec --no-startup-id compton -fb --backend glx --vsync opengl & # compositing
 exec --no-startup-id nitrogen --restore # wallpapers
 exec --no-startup-id urxvtd -q -o -f
+exec --no-startup-id i3-react
 
 ## Plasma Integration
 # Try to kill the wallpaper set by Plasma (it takes up the entire workspace and hides everythiing)

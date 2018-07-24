@@ -1,0 +1,4 @@
+target/
+*.lock
+
+bin/.local/bin/i3-react
