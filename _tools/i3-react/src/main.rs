@@ -1,12 +1,13 @@
 extern crate i3ipc;
 extern crate regex;
+extern crate x11;
 use i3ipc::event::Event;
 use i3ipc::I3Connection;
 use i3ipc::I3EventListener;
 use i3ipc::Subscription;
 use regex::Regex;
 use std::cell::RefCell;
-use std::process::Command;
+use x11::xlib;
 
 pub trait ActionMatcher {
     fn matches(&self, node: &i3ipc::reply::Node) -> bool;
@@ -16,7 +17,56 @@ pub trait Action {
     fn execute(&self, connection: &mut I3Connection, node: &i3ipc::reply::Node);
 }
 
-struct UrgencyAction {}
+struct X11Display {
+    display: *mut xlib::Display
+}
+
+impl Drop for X11Display {
+    fn drop(&mut self) {
+        if !self.display.is_null() {
+            unsafe {
+                xlib::XCloseDisplay(self.display);
+            }
+            self.display = std::ptr::null_mut();
+        }
+    }
+}
+
+impl X11Display {
+    pub fn new() -> Result<X11Display, ()> {
+        unsafe {
+            let display = xlib::XOpenDisplay(0 as *const i8);
+            if display.is_null() {
+                return Err(());
+            }
+            Ok(X11Display { display: display })
+        }
+    }
+
+    pub fn set_urgency(&self, window_id: u64) -> Result<(), i32> {
+        unsafe {
+            let mut hints = xlib::XGetWMHints(self.display, window_id);
+            if hints.is_null() {
+                hints = xlib::XAllocWMHints();
+                if hints.is_null() {
+                    return Err(1);
+                }
+            }
+            (*hints).flags = (*hints).flags | xlib::XUrgencyHint;
+            let result = xlib::XSetWMHints(self.display, window_id, hints);
+            xlib::XFree(hints as *mut std::os::raw::c_void);
+            if result == 0 {
+                return Err(2);
+            }
+            xlib::XFlush(self.display);
+            Ok(())
+        }
+    }
+}
+
+struct UrgencyAction {
+    display: X11Display,
+}
 
 impl Action for UrgencyAction {
     fn execute(&self, _connection: &mut I3Connection, node: &i3ipc::reply::Node) {
@@ -25,24 +75,20 @@ impl Action for UrgencyAction {
         }
 
         if let Some(window_id) = node.window {
-            // TODO use X11 directly
-            Command::new("wmctrl")
-                .args(&[
-                    "-b",
-                    "add,demands_attention",
-                    "-r",
-                    window_id.to_string().as_str(),
-                    "-i",
-                ])
-                .output()
-                .expect("failed to set urgency flag");
+            if let Err(code) = self.display.set_urgency(window_id as u64) {
+                println!(
+                    "unable to set urgency for window {} / {:?}, code {}",
+                    window_id, node.name, code
+                );
+            }
         }
     }
 }
 
 impl UrgencyAction {
-    pub fn new() -> UrgencyAction {
-        UrgencyAction {}
+    pub fn new() -> Result<UrgencyAction, ()> {
+        let display = X11Display::new()?;
+        Ok(UrgencyAction { display: display })
     }
 }
 
@@ -135,14 +181,14 @@ fn main() {
 
     i3react.register(
         Box::new(RegexMatcher::new(Regex::new(r"^\* .*$").unwrap())),
-        Box::new(UrgencyAction::new()),
+        Box::new(UrgencyAction::new().unwrap()),
     );
 
     i3react.register(
         Box::new(RegexMatcher::new(
             Regex::new(r"^\(\d+\).*The Lounge$").unwrap(),
         )),
-        Box::new(UrgencyAction::new()),
+        Box::new(UrgencyAction::new().unwrap()),
     );
 
     i3react.run();

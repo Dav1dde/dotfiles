@@ -6,4 +6,5 @@ authors = ["David Herberth <github@dav1d.de>"]
 [dependencies]
 i3ipc = "0.8.2"
 regex = "1"
+x11 = { version = "2.18.1", features = ["xlib"] }
 
