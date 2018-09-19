@@ -24,6 +24,7 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'sjl/gundo.vim'
 Plugin 'jaxbot/semantic-highlight.vim'
+Plugin 'francoiscabrol/ranger.vim'
 
 "Plugin 'mkitt/tabline.vim'
 
@@ -143,7 +144,7 @@ nnoremap <C-b> :YcmCompleter GoTo<CR>
 nnoremap <tab> %
 vnoremap <tab> %
 " Close current buffer with Ctrl+W
-nnoremap <C-w> :bd<CR>
+nnoremap <leader><C-w> :bd<CR>
 " Swap to previous buffer with Shift+Tab
 nnoremap <C-Tab> :b#<CR>
 

@@ -39,7 +39,7 @@ font pango:DejaVu Sans Mono 10
 floating_modifier $mod
 
 # Program shortcuts
-bindsym $mod+Shift+Return exec --no-startup-id urxvtc
+bindsym $mod+Shift+Return exec --no-startup-id alacritty
 
 # Kill focused window
 bindsym $mod+Shift+q kill
@@ -185,7 +185,6 @@ force_display_urgency_hint 500 ms
 exec --no-startup-id xrdb ~/.Xresources # mainly required for urxvt and rofi
 exec --no-startup-id compton -fb --backend glx --vsync opengl & # compositing
 exec --no-startup-id nitrogen --restore # wallpapers
-exec --no-startup-id urxvtd -q -o -f
 exec --no-startup-id i3-react
 
 ## Plasma Integration
