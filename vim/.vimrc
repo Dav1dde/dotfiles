@@ -50,7 +50,7 @@ call vundle#end()
 "" Settings
 " YouCompleteMe
 let g:ycm_global_ycm_extra_conf = '/usr/share/vim/vimfiles/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-let g:ycm_server_python_interpreter = '/usr/bin/python2'
+let g:ycm_server_python_interpreter = '/usr/bin/python3'
 
 " Snytastic
 " let g:syntastic_always_populate_loc_list = 1

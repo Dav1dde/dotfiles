@@ -45,9 +45,11 @@ ZSH_THEME="flazz-dav"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git pip virtualenv virtualenvwrapper archlinux fasd colorize supervisor tmux sudo systemd vp upl colored-man extract zsh-syntax-highlighting)
+plugins=(git pip virtualenv virtualenvwrapper archlinux fasd colorize supervisor tmux sudo systemd vp upl colored-man extract zsh-syntax-highlighting oc helm util)
 
 source $ZSH/oh-my-zsh.sh
+
+eval $(thefuck --alias)
 
 # User configuration
 export UPL_SSH=dav1d@dav1d.de
@@ -91,3 +93,4 @@ export MAKEFLAGS="-j 3"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 source ~/.zsh_alias
+

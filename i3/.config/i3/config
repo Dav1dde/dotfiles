@@ -129,14 +129,18 @@ bindsym $mod+Shift+6 move container to workspace $ws6
 bindsym $mod+Shift+7 move container to workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8
 
-workspace $ws1 output DVI-D-0
-workspace $ws2 output DVI-I-0 # left monitor
-workspace $ws3 output DVI-D-0
-workspace $ws4 output DVI-D-0
-workspace $ws5 output DVI-D-0
-workspace $ws6 output DVI-D-0
-workspace $ws7 output DVI-D-0
-workspace $ws8 output DVI-I-0 # left monitor
+set $left eDP1
+set $middle DP1
+set $right HDMI2
+
+workspace $ws1 output $middle
+workspace $ws2 output $middle
+workspace $ws3 output $right
+workspace $ws4 output $left
+workspace $ws5 output $left
+workspace $ws6 output $middle
+workspace $ws7 output $right
+workspace $ws8 output $left
 
 bindsym $mod+Tab workspace back_and_forth
 
@@ -183,7 +187,7 @@ force_display_urgency_hint 500 ms
 
 ## Starting things with i3
 exec --no-startup-id xrdb ~/.Xresources # mainly required for urxvt and rofi
-exec --no-startup-id compton -fb --backend glx --vsync opengl & # compositing
+exec --no-startup-id compton -fb --backend glx --vsync opengl --no-fading-openclose & # compositing
 exec --no-startup-id nitrogen --restore # wallpapers
 exec --no-startup-id i3-react
 
