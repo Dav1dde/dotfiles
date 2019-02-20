@@ -1,0 +1,49 @@
+// vim:ts=4:sw=4:et
+{
+    "border": "pixel",
+    "current_border_width": 1,
+    "floating": "auto_off",
+    "geometry": {
+       "height": 1056,
+       "width": 943,
+       "x": 12,
+       "y": 372
+    },
+    "name": "Outlook",
+    "percent": 0.6,
+    "swallows": [
+       {
+       // "class": "^Chromium$",
+        "instance": "^outlook\\.office\\.com$"
+       // "title": "^Outlook$",
+       // "transient_for": "^$",
+       // "window_role": "^pop\\-up$"
+       }
+    ],
+    "type": "con"
+}
+
+{
+    "border": "pixel",
+    "current_border_width": 1,
+    "floating": "auto_off",
+    "geometry": {
+       "height": 1056,
+       "width": 943,
+       "x": 965,
+       "y": 372
+    },
+    "name": "Teams",
+    "percent": 0.4,
+    "swallows": [
+       {
+       // "class": "^Chromium$",
+        "instance": "^teams\\.microsoft\\.com$"
+       // "title": "^Bei\\ Ihrem\\ Konto\\ anmelden$",
+       // "transient_for": "^$",
+       // "window_role": "^pop\\-up$"
+       }
+    ],
+    "type": "con"
+}
+
