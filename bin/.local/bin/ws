@@ -19,7 +19,7 @@ STARTUP="${DIRECTORY}/workspace-${TARGET_WORKSPACE}-${PROFILE}.sh"
 i3-msg "workspace --no-auto-back-and-forth ${TARGET_WORKSPACE}" 
 
 # Clear workspace
-i3-msg "focus parent, focus parent, focus parent, focus parent, focus parent, focus parent, focus parent, focus parent, focus parent, focus parent, kill"
+i3-msg "focus parent, focus parent, focus parent, focus parent, focus parent, focus parent, focus parent, focus parent, focus parent, focus parent, kill" || true
 
 # Repopulate workspace
 i3-msg "append_layout ${LAYOUT}"
