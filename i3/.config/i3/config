@@ -145,10 +145,10 @@ workspace $ws8 output $left
 bindsym $mod+Tab workspace back_and_forth
 
 # Move focus between screens
-bindsym $mod+Alt+h focus output left
-bindsym $mod+Alt+Left focus output left
-bindsym $mod+Alt+l focus output right
-bindsym $mod+Alt+Right focus output right
+bindsym $mod+Mod1+h focus output left
+bindsym $mod+Mod1+Left focus output left
+bindsym $mod+Mod1+l focus output right
+bindsym $mod+Mod1+Right focus output right
 
 # reload the configuration file
 # bindsym $mod+Shift+c reload
@@ -195,7 +195,7 @@ exec --no-startup-id i3-react
 # Try to kill the wallpaper set by Plasma (it takes up the entire workspace and hides everythiing)
 exec --no-startup-id wmctrl -c Plasma
 for_window [title="Desktop — Plasma"] kill
-for_window [class="plasmashell"] floating enable;
-
 no_focus [class="plasmashell"]
+no_focus [title="Plasma"]
+for_window [class="plasmashell"] floating enable;
 
