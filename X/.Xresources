@@ -1,3 +1,5 @@
+Xft.dpi: 96
+
 !! URxvt
 ! special
 URxvt.foreground:   #eaeaea
