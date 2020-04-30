@@ -41,11 +41,20 @@ ZSH_THEME="flazz-dav"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+_fzf_compgen_path() {
+  fd --hidden --no-ignore --follow -E ".git" -E ".hg" -E ".svn" -E "node_modules" -E "target" -E "dist" -E "__pycache__" . "$1"
+}
+
+# Use fd to generate the list for directory completion
+_fzf_compgen_dir() {
+  fd --type d --hidden --no-ignore --follow -E ".git" -E ".hg" -E ".svn" -E "node_modules" -E "target" -E "dist" -E "__pycache__"  . "$1"
+}
+
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git pip virtualenv virtualenvwrapper archlinux fasd colorize supervisor tmux sudo systemd vp upl extract zsh-syntax-highlighting oc helm util kube-ps1)
+plugins=(git pip virtualenv virtualenvwrapper archlinux fasd colorize supervisor tmux sudo systemd vp upl extract zsh-syntax-highlighting kubectl oc helm util kube-ps1 fzf fzf-tab)
 
 source $ZSH/oh-my-zsh.sh
 
