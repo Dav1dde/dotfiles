@@ -140,9 +140,7 @@ nnoremap <leader><C-e> :CtrlPBuffer<CR>
 " Jump to tag/implementation
 nnoremap <leader><C-b> :YcmCompleter GoTo<CR>
 nnoremap <C-b> :YcmCompleter GoTo<CR>
-" Swap between brackets with tab
-nnoremap <tab> %
-vnoremap <tab> %
+
 " Close current buffer with Ctrl+W
 nnoremap <leader><C-w> :bd<CR>
 " Swap to previous buffer with Shift+Tab
