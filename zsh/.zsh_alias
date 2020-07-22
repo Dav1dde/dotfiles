@@ -8,3 +8,5 @@ alias pyclean='find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf'
 
 alias pmvn='mvn -s ~/.m2/settings_poi.xml'
 
+alias kustomize='kubectl kustomize'
+alias ssh="TERM=xterm-256color ssh"

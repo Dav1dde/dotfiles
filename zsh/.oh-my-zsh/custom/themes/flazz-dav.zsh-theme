@@ -38,7 +38,16 @@ KUBE_PS1_SUFFIX="]"
 KUBE_PS1_SYMBOL_COLOR="cyan"
 KUBE_PS1_NS_COLOR="cyan"
 
-RPS1='$(vi_mode_prompt_info) ${return_code}$(virtualenv_prompt_info)$(kube_ps1)'
+function tf_prompt_info() {
+    # from the tf plugin
+    [[ "$PWD" == ~ ]] && return
+    if [ -d .terraform ]; then
+      local workspace=$(terraform workspace show 2> /dev/null) || return
+      echo "%{$reset_color%}[%{$fg[cyan]%}\U0001f310%{$reset_color%}|%{$fg[cyan]%}${workspace}%{$reset_color%}]"
+    fi
+}
+
+RPS1='$(vi_mode_prompt_info) ${return_code}$(virtualenv_prompt_info)$(kube_ps1)$(tf_prompt_info)'
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[cyan]%}‹"
 ZSH_THEME_GIT_PROMPT_SUFFIX="› %{$reset_color%}"
