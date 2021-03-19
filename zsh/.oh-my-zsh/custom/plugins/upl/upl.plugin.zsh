@@ -9,8 +9,8 @@ upl() {
         dest=$(basename $2)
     fi
     
-    scp $1 $UPL_SSH:$UPL_PATH$dest
-    ssh $UPL_SSH chmod 644 $UPL_PATH$dest
+    scp -r $1 $UPL_SSH:$UPL_PATH$dest
+    ssh $UPL_SSH chmod -R 644 $UPL_PATH$dest
 
     if [ -z ${UPL_URL+x} ]; then; else
         echo "$UPL_URL$dest"

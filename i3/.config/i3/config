@@ -131,6 +131,7 @@ bindsym $mod+Shift+8 move container to workspace $ws8
 
 set $left eDP1
 set $middle DP1
+set $right HDMI1
 set $right HDMI2
 
 workspace $ws1 output $middle
@@ -198,4 +199,5 @@ for_window [title="Desktop — Plasma"] kill
 no_focus [class="plasmashell"]
 no_focus [title="Plasma"]
 for_window [class="plasmashell"] floating enable;
+for_window [title="Microsoft Teams Notification"] floating enable;
 

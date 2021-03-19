@@ -1,6 +1,7 @@
 # https://github.com/alacritty/alacritty/blob/master/alacritty.yml
 
 window:
+  dynamic_title: true
   padding:
     x: 2
     y: 2
@@ -51,6 +52,8 @@ colors:
 
 background_opacity: 1.0
 
-dynamic_title: true
-
 live_config_reload: true
+
+key_bindings:
+   - { key: Tab,      mods: Control,       chars: "\x1b[27;5;9~",                      }
+   - { key: Tab,      mods: Control|Shift, chars: "\x1b[27;6;9~",                      }

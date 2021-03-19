@@ -6,6 +6,7 @@
 "   * http://items.sjbach.com/319/configuring-vim-right
 "   * http://stevelosh.com/blog/2010/09/coming-home-to-vim/
 "   * https://www.youtube.com/watch?v=XA2WjJbmmoM
+"   * https://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
 "
 
 set encoding=utf-8
@@ -25,9 +26,9 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'sjl/gundo.vim'
 Plugin 'jaxbot/semantic-highlight.vim'
 Plugin 'francoiscabrol/ranger.vim'
-
+Plugin 'terryma/vim-expand-region'
+Plugin 'tpope/vim-repeat'
 "Plugin 'mkitt/tabline.vim'
-
 " Git
 Plugin 'tpope/vim-fugitive'
 
@@ -51,6 +52,8 @@ call vundle#end()
 " YouCompleteMe
 let g:ycm_global_ycm_extra_conf = '/usr/share/vim/vimfiles/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 let g:ycm_server_python_interpreter = '/usr/bin/python3'
+set completeopt-=preview
+
 
 " Snytastic
 " let g:syntastic_always_populate_loc_list = 1
@@ -85,6 +88,8 @@ filetype plugin indent on
 colorscheme molokai
 " Change the awful matching paren highlighting in molokai
 highlight MatchParen cterm=underline ctermbg=none ctermfg=none
+" Change the Visual highlight color which is really hard to see
+highlight Visual cterm=bold ctermbg=Blue ctermfg=NONE
 
 set title                       " automaticall set title to the file that is open
 set hidden                      " allow unsaved buffers
@@ -123,6 +128,15 @@ autocmd FocusLost * :wa
 "" Mappings
 let mapleader=" "
 
+" Expand and Shrink selection
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
+
+" Jump to the end of paste
+vnoremap <silent> y y`]
+vnoremap <silent> p p`]
+nnoremap <silent> p p`]
+
 " alias :W to :w
 " https://stackoverflow.com/a/3879737/969534
 cnoreabbrev <expr> W ((getcmdtype() is# ':' && getcmdline() is# 'W')?('w'):('W'))
@@ -130,21 +144,24 @@ cnoreabbrev <expr> W ((getcmdtype() is# ':' && getcmdline() is# 'W')?('w'):('W')
 " Make special Tab escapes work in vim
 map <Esc>[27;5;9~ <C-Tab>
 map <Esc>[27;6;9~ <C-S-Tab>
+imap <Esc>[27;6;9~ <Esc><C-S-Tab>
 
 " Open graphical undo browser
 nnoremap <leader>u :GundoToggle<CR>
 " Cleanup trailing whitespaces
 nnoremap <silent> <leader><space> :%s/\s\+$//<CR>:let @/=''<CR>:w<CR>
 " quick buffer navigation (similar to IntelliJ Ctrl+E)
-nnoremap <leader><C-e> :CtrlPBuffer<CR>
+nnoremap <leader>e :CtrlPBuffer<CR>
 " Jump to tag/implementation
-nnoremap <leader><C-b> :YcmCompleter GoTo<CR>
+nnoremap <leader>b :YcmCompleter GoTo<CR>
 nnoremap <C-b> :YcmCompleter GoTo<CR>
+nnoremap <leader>q :YcmCompleter GetDoc<CR>
 
 " Close current buffer with Ctrl+W
-nnoremap <leader><C-w> :bd<CR>
-" Swap to previous buffer with Shift+Tab
+nnoremap <leader>w :bd<CR>
+" Swap to previous buffer with Ctrl+Tab
 nnoremap <C-Tab> :b#<CR>
+nnoremap <S-Tab> :CtrlPBuffer<CR>
 
 " turn off search indicators
 nnoremap <silent> <leader>n :silent :nohlsearch<CR>

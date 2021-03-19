@@ -25,6 +25,12 @@ function get_cluster_short() {
   manage-ocp-porscheinformatik-cloud:8443)
     cluster_name=poi
     ;;
+  nonprod1-manage-ocp-porscheinformatik-cloud:8443)
+    cluster_name=poi-np
+    ;;
+  api-console-openshift-console-apps-ocp-ti-tu-ti-testintra-de:443)
+    cluster_name=ti
+    ;;
   *)
     ;;
   esac
