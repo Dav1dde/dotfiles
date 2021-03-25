@@ -23,7 +23,8 @@ call vundle#begin()
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'sjl/gundo.vim'
+Plugin 'junegunn/fzf.vim'
+Plugin 'mbbill/undotree'
 Plugin 'jaxbot/semantic-highlight.vim'
 Plugin 'francoiscabrol/ranger.vim'
 Plugin 'terryma/vim-expand-region'
@@ -45,6 +46,7 @@ Plugin 'tpope/vim-surround'
 
 " Other
 Plugin 'felixhummel/setcolors.vim'
+Plugin 'zainin/vim-mikrotik'
 
 call vundle#end()
 
@@ -52,6 +54,7 @@ call vundle#end()
 " YouCompleteMe
 let g:ycm_global_ycm_extra_conf = '/usr/share/vim/vimfiles/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 let g:ycm_server_python_interpreter = '/usr/bin/python3'
+let g:ycm_always_populate_location_list = 1
 set completeopt-=preview
 
 
@@ -74,6 +77,16 @@ let g:ctrlp_custom_ignore = {
             \ 'dir':  '\v[\/](\.(git|hg|svn))|(ownCloud|node_modules|target|dist|__pycache__)$',
             \ 'file': '\v\.(pyc|pyo|o|a|so|exe|dll|png|jpeg|jpg|desktop|bin)$'
             \ }
+
+" Fzf
+let g:fzf_layout = { 'down': '~20%' }
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
 
 " Rainbow
 let g:rainbow_active = 1
@@ -124,6 +137,8 @@ set tags=./tags;/               " set tags location
 
 " automatically save when losing focus
 autocmd FocusLost * :wa
+" leave paste mode when leaving insert mode
+autocmd InsertLeave * set nopaste
 
 "" Mappings
 let mapleader=" "
@@ -137,6 +152,15 @@ vnoremap <silent> y y`]
 vnoremap <silent> p p`]
 nnoremap <silent> p p`]
 
+" Beginning of the Line
+map H ^
+" End of the Line
+map L $
+
+" Move by display line not physical line
+nnoremap j gj
+nnoremap k gk
+
 " alias :W to :w
 " https://stackoverflow.com/a/3879737/969534
 cnoreabbrev <expr> W ((getcmdtype() is# ':' && getcmdline() is# 'W')?('w'):('W'))
@@ -147,15 +171,21 @@ map <Esc>[27;6;9~ <C-S-Tab>
 imap <Esc>[27;6;9~ <Esc><C-S-Tab>
 
 " Open graphical undo browser
-nnoremap <leader>u :GundoToggle<CR>
+nnoremap <leader>u :UndotreeToggle<CR>
 " Cleanup trailing whitespaces
 nnoremap <silent> <leader><space> :%s/\s\+$//<CR>:let @/=''<CR>:w<CR>
 " quick buffer navigation (similar to IntelliJ Ctrl+E)
 nnoremap <leader>e :CtrlPBuffer<CR>
+" Quick search using ripgrep
+nnoremap <leader>s :Rg<CR>
+
 " Jump to tag/implementation
 nnoremap <leader>b :YcmCompleter GoTo<CR>
+nnoremap <leader>r :YcmCompleter GoToReferences<CR>
 nnoremap <C-b> :YcmCompleter GoTo<CR>
 nnoremap <leader>q :YcmCompleter GetDoc<CR>
+" Jump to the next error
+nnoremap <F2> :lnext<CR>
 
 " Close current buffer with Ctrl+W
 nnoremap <leader>w :bd<CR>
@@ -165,10 +195,11 @@ nnoremap <S-Tab> :CtrlPBuffer<CR>
 
 " turn off search indicators
 nnoremap <silent> <leader>n :silent :nohlsearch<CR>
+vnoremap <silent> <leader>n :silent :nohlsearch<CR>
 
 augroup rust
     autocmd FileType rust nnoremap <F9> :w<CR>:!cargo run<CR>
     autocmd FileType rust inoremap <F9> <ESC>:w<CR>:!cargo run<CR>
 
-    autocmd FileType rust nnoremap <leader>f :RustFmt<CR>
+    autocmd FileType rust nnoremap <leader>m :RustFmt<CR>
 augroup END

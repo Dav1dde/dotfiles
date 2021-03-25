@@ -63,7 +63,7 @@ eval $(thefuck --alias)
 export JAVA_HOME=/usr/lib/jvm/default/
 
 # User configuration
-export UPL_SSH=dav1d@dav1d.de
+export UPL_SSH=dav1d@ssh.dav1d.de
 export UPL_PATH=/var/www/dav1d.de/files/
 export UPL_URL="http://files.dav1d.de/"
 
