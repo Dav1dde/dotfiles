@@ -26,9 +26,15 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'junegunn/fzf.vim'
 Plugin 'mbbill/undotree'
 Plugin 'jaxbot/semantic-highlight.vim'
-Plugin 'francoiscabrol/ranger.vim'
 Plugin 'terryma/vim-expand-region'
 Plugin 'tpope/vim-repeat'
+Plugin 'lambdalisue/nerdfont.vim'
+Plugin 'lambdalisue/fern.vim'
+Plugin 'lambdalisue/fern-renderer-nerdfont.vim'
+Plugin 'lambdalisue/fern-hijack.vim'
+Plugin 'lambdalisue/fern-git-status.vim'
+Plugin 'lambdalisue/fern-mapping-git.vim'
+Plugin 't9md/vim-choosewin'
 "Plugin 'mkitt/tabline.vim'
 " Git
 Plugin 'tpope/vim-fugitive'
@@ -45,7 +51,7 @@ Plugin 'luochen1990/rainbow'
 Plugin 'tpope/vim-surround'
 
 " Other
-Plugin 'felixhummel/setcolors.vim'
+" Plugin 'felixhummel/setcolors.vim'
 Plugin 'zainin/vim-mikrotik'
 
 call vundle#end()
@@ -78,11 +84,23 @@ let g:ctrlp_custom_ignore = {
             \ 'file': '\v\.(pyc|pyo|o|a|so|exe|dll|png|jpeg|jpg|desktop|bin)$'
             \ }
 
+function ProjectDirectory()
+  let l:p = ''
+  if system('git status') =~ '^fatal'
+     let l:p = expand('%:p:h')
+  else
+    let l:p = trim(system('git rev-parse --show-toplevel'))
+  endif
+
+  return trim(system('realpath --relative-to=' . getcwd() . ' ' . fnameescape(l:p)))
+endfunction
+
 " Fzf
 let g:fzf_layout = { 'down': '~20%' }
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>) . ' ' . ProjectDirectory(),
+  \   1,
   \   <bang>0 ? fzf#vim#with_preview('up:60%')
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
@@ -90,6 +108,12 @@ command! -bang -nargs=* Rg
 
 " Rainbow
 let g:rainbow_active = 1
+
+" Fern
+let g:fern#renderer = "nerdfont"
+
+" ChooseWin
+let g:choosewin_overlay_enable = 0
 
 " Rust
 let g:racer_cmd = "/usr/bin/racer"
@@ -103,6 +127,8 @@ colorscheme molokai
 highlight MatchParen cterm=underline ctermbg=none ctermfg=none
 " Change the Visual highlight color which is really hard to see
 highlight Visual cterm=bold ctermbg=Blue ctermfg=NONE
+" Change the Comment color, really hard to see on dark background
+highlight Comment ctermfg=145
 
 set title                       " automaticall set title to the file that is open
 set hidden                      " allow unsaved buffers
@@ -173,17 +199,24 @@ imap <Esc>[27;6;9~ <Esc><C-S-Tab>
 " Open graphical undo browser
 nnoremap <leader>u :UndotreeToggle<CR>
 " Cleanup trailing whitespaces
-nnoremap <silent> <leader><space> :%s/\s\+$//<CR>:let @/=''<CR>:w<CR>
+nnoremap <silent> <leader><space> :%s/\s\+$//<CR>:let @/=''<CR>:w<CR>:set nohlsearch<CR>
 " quick buffer navigation (similar to IntelliJ Ctrl+E)
 nnoremap <leader>e :CtrlPBuffer<CR>
 " Quick search using ripgrep
 nnoremap <leader>s :Rg<CR>
+
+" File Browser
+noremap <leader>f :execute printf(':Fern %s -drawer -reveal=%s -toggle', ProjectDirectory(), expand('%:p'))<CR>
+
+" Open Window Chooser
+nmap - <Plug>(choosewin)
 
 " Jump to tag/implementation
 nnoremap <leader>b :YcmCompleter GoTo<CR>
 nnoremap <leader>r :YcmCompleter GoToReferences<CR>
 nnoremap <C-b> :YcmCompleter GoTo<CR>
 nnoremap <leader>q :YcmCompleter GetDoc<CR>
+nnoremap <leader><F6> :YcmCompleter RefactorRename<space>
 " Jump to the next error
 nnoremap <F2> :lnext<CR>
 
@@ -201,5 +234,5 @@ augroup rust
     autocmd FileType rust nnoremap <F9> :w<CR>:!cargo run<CR>
     autocmd FileType rust inoremap <F9> <ESC>:w<CR>:!cargo run<CR>
 
-    autocmd FileType rust nnoremap <leader>m :RustFmt<CR>
+    autocmd FileType rust nnoremap <leader>m :RustFmt<CR>:w<CR>
 augroup END
