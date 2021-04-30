@@ -196,6 +196,14 @@ map <Esc>[27;5;9~ <C-Tab>
 map <Esc>[27;6;9~ <C-S-Tab>
 imap <Esc>[27;6;9~ <Esc><C-S-Tab>
 
+" Tab Navigation
+nnoremap th :tabfirst<CR>
+nnoremap tk :tabnext<CR>
+nnoremap tj :tabprev<CR>
+nnoremap tl :tablast<CR>
+nnoremap tn :tabnew<CR>
+nnoremap td :tabclose<CR>
+
 " Open graphical undo browser
 nnoremap <leader>u :UndotreeToggle<CR>
 " Cleanup trailing whitespaces
