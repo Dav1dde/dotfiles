@@ -128,20 +128,35 @@ bindsym $mod+Shift+5 move container to workspace $ws5
 bindsym $mod+Shift+6 move container to workspace $ws6
 bindsym $mod+Shift+7 move container to workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move scratchpad
+bindsym $mod+Shift+minus scratchpad show
+bindsym $mod+minus scratchpad show
 
 set $left eDP1
 set $middle DP1
 set $right HDMI1
 set $right HDMI2
 
-workspace $ws1 output $middle
-workspace $ws2 output $middle
-workspace $ws3 output $right
-workspace $ws4 output $left
-workspace $ws5 output $left
-workspace $ws6 output $middle
-workspace $ws7 output $right
-workspace $ws8 output $left
+set $screen eDP
+set $other HDMI-A-0
+
+#workspace $ws1 output $middle
+#workspace $ws2 output $middle
+#workspace $ws3 output $right
+#workspace $ws4 output $left
+#workspace $ws5 output $left
+#workspace $ws6 output $middle
+#workspace $ws7 output $right
+#workspace $ws8 output $left
+
+workspace $ws1 output $screen
+workspace $ws2 output $screen
+workspace $ws3 output $screen
+workspace $ws4 output $screen
+workspace $ws5 output $screen
+workspace $ws6 output $screen
+workspace $ws7 output $other
+workspace $ws8 output $screen
 
 bindsym $mod+Tab workspace back_and_forth
 
@@ -190,14 +205,24 @@ force_display_urgency_hint 500 ms
 exec --no-startup-id xrdb ~/.Xresources # mainly required for urxvt and rofi
 #exec --no-startup-id compton -fb --backend glx --vsync --no-fading-openclose & # compositing
 exec --no-startup-id nitrogen --restore # wallpapers
-exec --no-startup-id i3-react
 
 ## Plasma Integration
 # Try to kill the wallpaper set by Plasma (it takes up the entire workspace and hides everythiing)
-exec --no-startup-id wmctrl -c Plasma
-for_window [title="Desktop — Plasma"] kill
+# exec --no-startup-id wmctrl -c Plasma
+for_window [title="Microsoft Teams Notification"] floating enable;
+
+for_window [class="plasmashell" title="Desktop — Plasma"] floating enable; border none; move scratchpad
 no_focus [class="plasmashell"]
 no_focus [title="Plasma"]
 for_window [class="plasmashell"] floating enable;
-for_window [title="Microsoft Teams Notification"] floating enable;
+for_window [class="Plasma"] floating enable; border none
+for_window [title="win7"] floating enable; border none
+for_window [class="krunner"] floating enable; border none
+for_window [class="Kmix"] floating enable; border none
+for_window [class="Klipper"] floating enable; border none
+no_focus [class="plasmashell" window_type="notification"]
+no_focus [class="plasmashell" window_type="on_screen_display"]
+
+assign [class="plasmashell" window_type="notification"] output primary
+
 

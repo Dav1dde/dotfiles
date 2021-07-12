@@ -13,6 +13,7 @@ stow -R \
     fontconfig \
     i3 \
     kde \
+    libinput-gestures \
     redshift \
     systemd \
     vim \

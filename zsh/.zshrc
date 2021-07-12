@@ -5,7 +5,7 @@ export ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="flazz-dav"
+# ZSH_THEME="flazz-dav"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -54,11 +54,9 @@ _fzf_compgen_dir() {
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git pip virtualenv virtualenvwrapper archlinux fasd colorize supervisor tmux sudo systemd vp upl extract zsh-syntax-highlighting kubectl oc helm util kube-ps1 fzf terraform)
+plugins=(git pip virtualenv archlinux fasd fzf colorize tmux sudo systemd extract zsh-syntax-highlighting kube-ps1 virtualenvwrapper)
 
 source $ZSH/oh-my-zsh.sh
-
-eval $(thefuck --alias)
 
 export JAVA_HOME=/usr/lib/jvm/default/
 
@@ -89,7 +87,9 @@ fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
-export MAKEFLAGS="-j 3"
+export MAKEFLAGS="-j 8"
+
+export NODE_OPTIONS=--max_old_space_size=8192
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
@@ -105,3 +105,4 @@ export MAKEFLAGS="-j 3"
 
 source ~/.zsh_alias
 
+eval $(starship init zsh)

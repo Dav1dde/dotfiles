@@ -13,7 +13,7 @@ set encoding=utf-8
 set nocompatible
 filetype off            " required for vundle
 
-" set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
 

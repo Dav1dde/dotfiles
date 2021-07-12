@@ -12,3 +12,7 @@ alias ssh="TERM=xterm-256color ssh"
 
 alias kns="kubens"
 alias kcx="kubectx"
+alias -g k="kubectl"
+
+alias paste="curl -F 'sprunge=<-' http://sprunge.us"
+

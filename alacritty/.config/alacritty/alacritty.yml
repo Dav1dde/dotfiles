@@ -5,6 +5,7 @@ window:
   padding:
     x: 2
     y: 2
+  decorations: Full
 
 scrolling:
   history: 10000
