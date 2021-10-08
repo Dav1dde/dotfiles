@@ -17,6 +17,7 @@ stow -R \
     redshift \
     systemd \
     vim \
+    nvim \
     X \
     zsh
 
