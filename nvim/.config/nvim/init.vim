@@ -1,5 +1,6 @@
 call plug#begin('~/.vim/plugged')
 
+" LSP
 Plug 'neovim/nvim-lspconfig'
 Plug 'glepnir/lspsaga.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -10,22 +11,30 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/nvim-cmp'
 
 Plug 'hrsh7th/vim-vsnip'
-
 Plug 'simrat39/rust-tools.nvim'
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 
-Plug 'tanvirtin/monokai.nvim'
-Plug 'arcticicestudio/nord-vim'
+" Utiltiy
+Plug 'terryma/vim-expand-region'
+Plug 'ojroques/nvim-bufdel'
 
-Plug 'kyazdani42/nvim-web-devicons'
-
+" Design
 Plug 'hoob3rt/lualine.nvim'
 Plug 'kdheepak/tabline.nvim'
 
-Plug 'terryma/vim-expand-region'
-Plug 'ojroques/nvim-bufdel'
+" Style
+Plug 'kyazdani42/nvim-web-devicons'
+
+" Themes
+Plug 'rktjmp/lush.nvim'
+Plug 'tanvirtin/monokai.nvim'
+Plug 'rafamadriz/neon'
+Plug 'marko-cerovac/material.nvim'
+Plug 'shaunsingh/moonlight.nvim'
+Plug 'adisen99/codeschool.nvim'
+Plug 'EdenEast/nightfox.nvim'
 
 call plug#end()
 
@@ -38,6 +47,7 @@ lua require 'setup'
 syntax on
 filetype plugin indent on
 
+set termguicolors
 colorscheme monokai
 
 set title                       " automaticall set title to the file that is open
@@ -125,4 +135,3 @@ nnoremap <C-Tab> :b#<CR>
 " turn off search indicators
 nnoremap <silent> <leader>n :silent :nohlsearch<CR>
 vnoremap <silent> <leader>n :silent :nohlsearch<CR>
-

@@ -15,4 +15,5 @@ alias kcx="kubectx"
 alias -g k="kubectl"
 
 alias paste="curl -F 'sprunge=<-' http://sprunge.us"
+alias vim=nvim
 
