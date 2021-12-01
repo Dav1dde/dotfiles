@@ -212,6 +212,7 @@ exec --no-startup-id nitrogen --restore # wallpapers
 for_window [title="Microsoft Teams Notification"] floating enable;
 
 for_window [class="plasmashell" title="Desktop — Plasma"] floating enable; border none; move scratchpad
+for_window [class="plasmashell" title="Desktop"] floating enable; border none; move scratchpad
 no_focus [class="plasmashell"]
 no_focus [title="Plasma"]
 for_window [class="plasmashell"] floating enable;

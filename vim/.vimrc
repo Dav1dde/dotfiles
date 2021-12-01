@@ -244,3 +244,11 @@ augroup rust
 
     autocmd FileType rust nnoremap <leader>m :RustFmt<CR>:w<CR>
 augroup END
+
+
+function! SynGroup()
+    let l:s = synID(line('.'), col('.'), 1)
+    echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
+endfun
+nmap <leader>sp :call SynGroup()<CR>
+

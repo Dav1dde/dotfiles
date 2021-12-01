@@ -4,6 +4,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'neovim/nvim-lspconfig'
 Plug 'glepnir/lspsaga.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/playground'
+Plug 'p00f/nvim-ts-rainbow'
 
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -19,6 +21,8 @@ Plug 'nvim-telescope/telescope.nvim'
 " Utiltiy
 Plug 'terryma/vim-expand-region'
 Plug 'ojroques/nvim-bufdel'
+" Plug 'ap/vim-css-color'
+Plug 'norcalli/nvim-colorizer.lua'
 
 " Design
 Plug 'hoob3rt/lualine.nvim'
@@ -36,19 +40,29 @@ Plug 'shaunsingh/moonlight.nvim'
 Plug 'adisen99/codeschool.nvim'
 Plug 'EdenEast/nightfox.nvim'
 
+Plug 'tjdevries/colorbuddy.nvim'
+
+Plug '~/workspaces/vim/davkai'
+Plug '~/workspaces/vim/onebuddy'
+
 call plug#end()
 
+syntax on
+set termguicolors
+filetype plugin indent on
 
 " Lua Configuration
 lua require 'setup'
 
+lua require'colorizer'.setup()
 
 " Vim Config
-syntax on
-filetype plugin indent on
 
-set termguicolors
-colorscheme monokai
+" colorscheme monokai
+" colorscheme onebuddy
+colorscheme davkai
+" lua require('colorbuddy').colorscheme('onebuddy')
+
 
 set title                       " automaticall set title to the file that is open
 set hidden                      " allow unsaved buffers
@@ -81,6 +95,19 @@ set tags=./tags;/               " set tags location
 autocmd FocusLost * :wa
 " leave paste mode when leaving insert mode
 autocmd InsertLeave * set nopaste
+
+cnoreabbrev W! w!
+cnoreabbrev Q! q!
+cnoreabbrev Wq wq
+cnoreabbrev Wa wa
+cnoreabbrev wQ wq
+cnoreabbrev WQ wq
+cnoreabbrev W w
+cnoreabbrev Q q
+
+" Reselect previous selection after indent
+vmap < <gv
+vmap > >gv
 
 "" Mappings
 let mapleader=" "
@@ -135,3 +162,5 @@ nnoremap <C-Tab> :b#<CR>
 " turn off search indicators
 nnoremap <silent> <leader>n :silent :nohlsearch<CR>
 vnoremap <silent> <leader>n :silent :nohlsearch<CR>
+
+nmap <leader>sp :TSHighlightCapturesUnderCursor<CR>

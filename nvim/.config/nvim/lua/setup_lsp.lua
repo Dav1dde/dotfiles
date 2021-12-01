@@ -12,7 +12,7 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
     buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
     buf_set_keymap('n', 'g0', '<cmd>lua require"telescope.builtin".lsp_document_symbols{}<CR>', opts)
-    buf_set_keymap('n', 'gW', '<cmd>lua require"telescope.builtin".lsp_workspace_symbols{}<CR>', opts)
+    buf_set_keymap('n', 'gW', '<cmd>lua require"telescope.builtin".lsp_dynamic_workspace_symbols{}<CR>', opts)
 
 
     buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
@@ -30,7 +30,14 @@ end
 local opts = { 
     on_attach = on_attach, 
     debounce_text_changes = 150,
-    capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+    capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+    settings = {
+        ["rust-analyzer"] = {
+            cargo = {
+                allFeatures = true
+            }
+        }
+    }
 }
 
 -- rust-analyzer is initialized with rust-tools
