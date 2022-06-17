@@ -2,7 +2,8 @@ call plug#begin('~/.vim/plugged')
 
 " LSP
 Plug 'neovim/nvim-lspconfig'
-Plug 'glepnir/lspsaga.nvim'
+Plug 'williamboman/nvim-lsp-installer'
+" Plug 'glepnir/lspsaga.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
 Plug 'p00f/nvim-ts-rainbow'
@@ -17,6 +18,9 @@ Plug 'simrat39/rust-tools.nvim'
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+
+" Language Support
+Plug 'posva/vim-vue'
 
 " Utiltiy
 Plug 'terryma/vim-expand-region'
@@ -147,7 +151,8 @@ nnoremap td :tabclose<CR>
 nnoremap <silent> <leader><space> :%s/\s\+$//<CR>:let @/=''<CR>:w<CR>:set nohlsearch<CR>
 
 " Quick buffer navigation (similar to IntelliJ Ctrl+E)
-nnoremap <leader>e <cmd>Telescope buffers<CR>
+" nnoremap <leader>e <cmd>Telescope buffers<CR>
+nnoremap <leader>e <cmd>lua require("telescope.builtin").buffers({ sort_lastused = true, ignore_current_buffer = true, sorter = require'telescope.sorters'.get_substr_matcher() })<CR>
 " Quick search
 nnoremap <leader>s <cmd>Telescope live_grep<CR>
 nnoremap <leader>p <cmd>Telescope git_files<CR>
@@ -162,5 +167,9 @@ nnoremap <C-Tab> :b#<CR>
 " turn off search indicators
 nnoremap <silent> <leader>n :silent :nohlsearch<CR>
 vnoremap <silent> <leader>n :silent :nohlsearch<CR>
+
+nnoremap <silent> <leader>d :lua vim.diagnostic.goto_next()<CR>
+nnoremap <silent> <F2> :lua vim.diagnostic.goto_next()<CR>
+inoremap <silent> <F2> :lua vim.diagnostic.goto_next()<CR>
 
 nmap <leader>sp :TSHighlightCapturesUnderCursor<CR>

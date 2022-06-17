@@ -1,4 +1,5 @@
 local nvim_lsp = require('lspconfig')
+local lsp_installer = require("nvim-lsp-installer")
 
 local on_attach = function(client, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -41,11 +42,15 @@ local opts = {
 }
 
 -- rust-analyzer is initialized with rust-tools
-local lsp_servers = {}
+local lsp_servers = {'tsserver'}
 
 for _, lsp in ipairs(lsp_servers) do
     nvim_lsp[lsp].setup(opts)
 end
+
+lsp_installer.on_server_ready(function(server)
+    server:setup(opts)
+end)
 
 
 require('rust-tools').setup({

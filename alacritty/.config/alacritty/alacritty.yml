@@ -51,8 +51,6 @@ colors:
     cyan:    '0x51ceff'
     white:   '0xffffff'
 
-background_opacity: 1.0
-
 live_config_reload: true
 
 key_bindings:

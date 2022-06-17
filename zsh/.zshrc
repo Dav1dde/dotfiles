@@ -59,14 +59,9 @@ plugins=(git pip virtualenv archlinux fasd fzf colorize tmux sudo systemd extrac
 source $ZSH/oh-my-zsh.sh
 
 export JAVA_HOME=/usr/lib/jvm/default/
+export PATH="/home/dav1d/.cargo/bin:$PATH"
 
 # User configuration
-export UPL_SSH=dav1d@ssh.dav1d.de
-export UPL_PATH=/var/www/dav1d.de/files/
-export UPL_URL="http://files.dav1d.de/"
-
-export VP_URL="http://paste.dav1d.de"
-
 export PYPY_IRC_TOPIC=1
 export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src
 
