@@ -1,0 +1,9 @@
+[Unit]
+Description=i3 Window Manager
+Wants=plasma-kcminit.service
+PartOf=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/i3
+Slice=session.slice
+Restart=on-failure
