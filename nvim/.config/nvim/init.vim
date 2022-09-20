@@ -1,12 +1,17 @@
 call plug#begin('~/.vim/plugged')
 
+" Libs
+Plug 'nvim-lua/plenary.nvim'
+
 " LSP
 Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer'
 " Plug 'glepnir/lspsaga.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+" Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'nvim-treesitter/playground'
 Plug 'p00f/nvim-ts-rainbow'
+Plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim'
 
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -16,8 +21,10 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'simrat39/rust-tools.nvim'
 
-Plug 'nvim-lua/plenary.nvim'
+" UI
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-ui-select.nvim'
+Plug 'folke/which-key.nvim'
 
 " Language Support
 Plug 'posva/vim-vue'
@@ -27,6 +34,9 @@ Plug 'terryma/vim-expand-region'
 Plug 'ojroques/nvim-bufdel'
 " Plug 'ap/vim-css-color'
 Plug 'norcalli/nvim-colorizer.lua'
+Plug 'lukas-reineke/indent-blankline.nvim'
+
+Plug 'RRethy/nvim-treesitter-textsubjects'
 
 " Design
 Plug 'hoob3rt/lualine.nvim'
@@ -43,6 +53,8 @@ Plug 'marko-cerovac/material.nvim'
 Plug 'shaunsingh/moonlight.nvim'
 Plug 'adisen99/codeschool.nvim'
 Plug 'EdenEast/nightfox.nvim'
+Plug 'Yazeed1s/minimal.nvim'
+Plug 'sainnhe/sonokai'
 
 Plug 'tjdevries/colorbuddy.nvim'
 
@@ -50,6 +62,9 @@ Plug '~/workspaces/vim/davkai'
 Plug '~/workspaces/vim/onebuddy'
 
 call plug#end()
+
+let g:sonokai_disable_terminal_colors = 1
+let g:sonokai_style = 'shusia'
 
 syntax on
 set termguicolors
@@ -64,7 +79,8 @@ lua require'colorizer'.setup()
 
 " colorscheme monokai
 " colorscheme onebuddy
-colorscheme davkai
+" colorscheme davkai
+colorscheme sonokai
 " lua require('colorbuddy').colorscheme('onebuddy')
 
 
@@ -157,6 +173,8 @@ nnoremap <leader>e <cmd>lua require("telescope.builtin").buffers({ sort_lastused
 nnoremap <leader>s <cmd>Telescope live_grep<CR>
 nnoremap <leader>p <cmd>Telescope git_files<CR>
 nnoremap <C-p> <cmd>Telescope git_files<CR>
+
+nnoremap <leader>l <cmd>lua require("lsp_lines").toggle()<CR>
 
 " Close current buffer with Ctrl+W
 nnoremap <leader>w :BufDel<CR>
