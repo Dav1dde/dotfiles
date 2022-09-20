@@ -54,7 +54,7 @@ _fzf_compgen_dir() {
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git pip virtualenv archlinux fasd fzf colorize tmux sudo systemd extract zsh-syntax-highlighting kube-ps1 virtualenvwrapper)
+plugins=(git pip virtualenv archlinux fasd fzf colorize tmux sudo systemd extract zsh-syntax-highlighting kube-ps1 virtualenvwrapper kubeconfig)
 
 source $ZSH/oh-my-zsh.sh
 
