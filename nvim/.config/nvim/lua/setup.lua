@@ -1,8 +1,8 @@
-local Path = require 'plenary.path'
-local Job = require 'plenary.job'
+local Path = require('plenary.path')
+local Job = require('plenary.job')
 
-require 'setup_lsp'
-require 'setup_cmp'
+require('setup_lsp')
+require('setup_cmp')
 
 require('lualine').setup({ options = { theme = 'onedark' }})
 require('tabline').setup()
@@ -10,12 +10,12 @@ require('tabline').setup()
 require("lsp_lines").setup()
 vim.diagnostic.config({ virtual_lines = false })
 
-require("which-key").setup()
+require('which-key').setup()
 
-require("indent_blankline").setup()
+require('indent_blankline').setup()
 
 
-require'nvim-treesitter.configs'.setup {
+require('nvim-treesitter.configs').setup {
     highlight = {
         enable = true,
         disable = {},
@@ -43,27 +43,22 @@ require'nvim-treesitter.configs'.setup {
     incremental_selection = {
         enable = true,
         keymaps = {
-            init_selection = "<C-n>",
-            node_incremental = "<C-n>",
-            scope_incremental = "<C-s>",
-            node_decremental = "<C-r>",
+            init_selection = '<C-n>',
+            node_incremental = '<C-n>',
+            scope_incremental = '<C-s>',
+            node_decremental = '<C-r>',
         },
     },
 }
 
 
 function project_directory(cwd)
-    local stdout, ret = Job:new({
-        command = "git",
-        args = {"rev-parse", "--show-toplevel"},
-        cwd = cwd or vim.loop.cwd()
-    }):sync()
-
-    if ret == 0 then
-        return stdout[1]
-    else
-        return vim.fn.expand("%:p:h")
+    local root = require('nvim-rooter').get_root()
+    if root then
+        return root
     end
+
+    return vim.fn.expand('%:p:h')
 end
 
 function telescope_path_display(opts, path)
@@ -76,8 +71,8 @@ local actions = require('telescope.actions')
 
 require('telescope').setup{
     extensions = {
-        ["ui-select"] = {
-            require("telescope.themes").get_dropdown {
+        ['ui-select'] = {
+            require('telescope.themes').get_dropdown {
                 -- even more opts
             }
         }
@@ -86,10 +81,42 @@ require('telescope').setup{
         path_display = telescope_path_display,
         mappings = {
             i = {
-                ["<esc>"] = actions.close
+                ['<esc>'] = actions.close
             },
         },
     }
 }
 
 require('telescope').load_extension('ui-select')
+
+require('nvim-rooter').setup({
+    manual = true
+})
+
+local telescope_builtin = require('telescope.builtin')
+local telescope_sorters = require('telescope.sorters')
+
+require('which-key').register({
+    ['<leader>'] = {
+        s = {
+            function() telescope_builtin.live_grep({ cwd = project_directory() }) end,
+            'Live Grep in all files of the current project'
+        },
+        e = {
+            function()
+                telescope_builtin.buffers({
+                    sort_lastused = true,
+                    ignore_current_buffer = true,
+                    sorter = telescope_sorters.get_substr_matcher()
+                })
+            end,
+            'Quick access to all recently accessed/open buffers'
+        },
+        p = {
+            function() telescope_builtin.find_files({ cwd = project_directory() }) end,
+            'Find files in project'
+        },
+        l = { '<cmd>lua require("lsp_lines").toggle()<cr>', 'Toggle error lines' },
+    },
+    ['<C-p>'] = { '<leader>p<cr>', 'Alias for <leader>p', noremap = false }
+})

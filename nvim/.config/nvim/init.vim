@@ -38,6 +38,8 @@ Plug 'lukas-reineke/indent-blankline.nvim'
 
 Plug 'RRethy/nvim-treesitter-textsubjects'
 
+Plug 'notjedi/nvim-rooter.lua'
+
 " Design
 Plug 'hoob3rt/lualine.nvim'
 Plug 'kdheepak/tabline.nvim'
@@ -165,16 +167,6 @@ nnoremap td :tabclose<CR>
 
 " Cleanup trailing whitespaces
 nnoremap <silent> <leader><space> :%s/\s\+$//<CR>:let @/=''<CR>:w<CR>:set nohlsearch<CR>
-
-" Quick buffer navigation (similar to IntelliJ Ctrl+E)
-" nnoremap <leader>e <cmd>Telescope buffers<CR>
-nnoremap <leader>e <cmd>lua require("telescope.builtin").buffers({ sort_lastused = true, ignore_current_buffer = true, sorter = require'telescope.sorters'.get_substr_matcher() })<CR>
-" Quick search
-nnoremap <leader>s <cmd>Telescope live_grep<CR>
-nnoremap <leader>p <cmd>Telescope git_files<CR>
-nnoremap <C-p> <cmd>Telescope git_files<CR>
-
-nnoremap <leader>l <cmd>lua require("lsp_lines").toggle()<CR>
 
 " Close current buffer with Ctrl+W
 nnoremap <leader>w :BufDel<CR>
