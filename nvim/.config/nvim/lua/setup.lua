@@ -96,6 +96,13 @@ require('nvim-rooter').setup({
 local telescope_builtin = require('telescope.builtin')
 local telescope_sorters = require('telescope.sorters')
 
+function telescope_find_files()
+    telescope_builtin.find_files({
+        cwd = project_directory(),
+        find_command = { 'rg', '--files', '--color', 'never', '--hidden', '--iglob', '!.git/*' },
+    })
+end
+
 require('which-key').register({
     ['<leader>'] = {
         s = {
@@ -112,11 +119,8 @@ require('which-key').register({
             end,
             'Quick access to all recently accessed/open buffers'
         },
-        p = {
-            function() telescope_builtin.find_files({ cwd = project_directory() }) end,
-            'Find files in project'
-        },
+        p = { telescope_find_files, 'Find files in project' },
         l = { '<cmd>lua require("lsp_lines").toggle()<cr>', 'Toggle error lines' },
     },
-    ['<C-p>'] = { '<leader>p<cr>', 'Alias for <leader>p', noremap = false }
+    ['<C-p>'] = { telescope_find_files, 'Find files in project' },
 })
