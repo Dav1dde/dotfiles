@@ -168,12 +168,6 @@ nnoremap td :tabclose<CR>
 " Cleanup trailing whitespaces
 nnoremap <silent> <leader><space> :%s/\s\+$//<CR>:let @/=''<CR>:w<CR>:set nohlsearch<CR>
 
-" Close current buffer with Ctrl+W
-nnoremap <leader>w :BufDel<CR>
-nnoremap <leader>W :bd<CR>
-" Swap to previous buffer with Ctrl+Tab
-nnoremap <C-Tab> :b#<CR>
-
 " turn off search indicators
 nnoremap <silent> <leader>n :silent :nohlsearch<CR>
 vnoremap <silent> <leader>n :silent :nohlsearch<CR>

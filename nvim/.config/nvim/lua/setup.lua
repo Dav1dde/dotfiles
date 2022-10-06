@@ -7,7 +7,7 @@ require('setup_cmp')
 require('lualine').setup({ options = { theme = 'onedark' }})
 require('tabline').setup()
 
-require("lsp_lines").setup()
+require('lsp_lines').setup()
 vim.diagnostic.config({ virtual_lines = false })
 
 require('which-key').setup()
@@ -93,6 +93,24 @@ require('nvim-rooter').setup({
     manual = true
 })
 
+function switch_mru_open_buffer()
+    local bufnrs = vim.tbl_filter(function(b)
+        local c = 1 ~= vim.fn.buflisted(b)
+            or not vim.api.nvim_buf_is_loaded(b)
+            or b == vim.api.nvim_get_current_buf()
+        return not c
+    end, vim.api.nvim_list_bufs())
+
+    table.sort(bufnrs, function(a, b)
+        return vim.fn.getbufinfo(a)[1].lastused > vim.fn.getbufinfo(b)[1].lastused
+    end)
+
+    if next(bufnrs) then
+        vim.api.nvim_win_set_buf(0, bufnrs[1])
+    end
+end
+
+
 local telescope_builtin = require('telescope.builtin')
 local telescope_sorters = require('telescope.sorters')
 
@@ -121,6 +139,9 @@ require('which-key').register({
         },
         p = { telescope_find_files, 'Find files in project' },
         l = { '<cmd>lua require("lsp_lines").toggle()<cr>', 'Toggle error lines' },
+        w = { '<cmd>BufDel<cr>', 'Delete the current buffer, but keep the window' },
+        W = { '<cmd>bd<cr>', 'Delete the current buffer' }
     },
     ['<C-p>'] = { telescope_find_files, 'Find files in project' },
+    ['<C-Tab>'] = { switch_mru_open_buffer, 'Switches to the most recently used open buffer' },
 })
