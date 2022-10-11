@@ -1,6 +1,8 @@
 local Path = require('plenary.path')
 local Job = require('plenary.job')
 
+local rooter = require('rooter');
+
 require('setup_lsp')
 require('setup_cmp')
 
@@ -52,19 +54,14 @@ require('nvim-treesitter.configs').setup {
 }
 
 
-function project_directory(cwd)
-    local root = require('nvim-rooter').get_root()
-    if root then
-        return root
-    end
-
-    return vim.fn.expand('%:p:h')
+function project_directory(path)
+    return rooter.get_root(path) or vim.fn.expand('%:p:h')
 end
 
 function telescope_path_display(opts, path)
     local p = Path:new(path)
     p = Path:new(p:expand())
-    return p:make_relative(project_directory(opts.cwd))
+    return p:make_relative(project_directory(path))
 end
 
 local actions = require('telescope.actions')
@@ -88,10 +85,6 @@ require('telescope').setup{
 }
 
 require('telescope').load_extension('ui-select')
-
-require('nvim-rooter').setup({
-    manual = true
-})
 
 function switch_mru_open_buffer()
     local bufnrs = vim.tbl_filter(function(b)

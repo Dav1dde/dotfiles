@@ -38,8 +38,6 @@ Plug 'lukas-reineke/indent-blankline.nvim'
 
 Plug 'RRethy/nvim-treesitter-textsubjects'
 
-Plug 'notjedi/nvim-rooter.lua'
-
 " Design
 Plug 'hoob3rt/lualine.nvim'
 Plug 'kdheepak/tabline.nvim'
