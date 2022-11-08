@@ -50,11 +50,13 @@ _fzf_compgen_dir() {
   fd --type d --hidden --no-ignore --follow -E ".git" -E ".hg" -E ".svn" -E "node_modules" -E "target" -E "dist" -E "__pycache__"  . "$1"
 }
 
+export FARFALLE_URL="https://p.dav1d.de"
+
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git pip virtualenv archlinux fasd fzf colorize tmux sudo systemd extract zsh-syntax-highlighting kube-ps1 virtualenvwrapper kubeconfig)
+plugins=(git pip virtualenv archlinux fasd fzf colorize tmux sudo systemd extract zsh-syntax-highlighting kube-ps1 virtualenvwrapper kubeconfig farfalle)
 
 source $ZSH/oh-my-zsh.sh
 
