@@ -7,7 +7,7 @@ require('setup_lsp')
 require('setup_cmp')
 
 require('lualine').setup({ options = { theme = 'onedark' }})
-require('tabline').setup()
+require('tabline').setup({ options = { show_filename_only = true }})
 
 require('lsp_lines').setup()
 vim.diagnostic.config({ virtual_lines = false })
@@ -15,6 +15,11 @@ vim.diagnostic.config({ virtual_lines = false })
 require('which-key').setup()
 
 require('indent_blankline').setup()
+
+require('bufdel').setup({
+    next = 'alternate',
+    quit = false,
+})
 
 
 require('nvim-treesitter.configs').setup {

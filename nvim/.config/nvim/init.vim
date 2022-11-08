@@ -155,6 +155,12 @@ map <Esc>[27;5;9~ <C-Tab>
 map <Esc>[27;6;9~ <C-S-Tab>
 imap <Esc>[27;6;9~ <Esc><C-S-Tab>
 
+" Mouse
+set mouse=
+" set mouse=nvi
+" map <ScrollWheelDown> j
+" map <ScrollWheelUp> k
+
 " Tab Navigation
 nnoremap th :tabfirst<CR>
 nnoremap tk :tabnext<CR>
@@ -175,3 +181,19 @@ nnoremap <silent> <F2> :lua vim.diagnostic.goto_next()<CR>
 inoremap <silent> <F2> :lua vim.diagnostic.goto_next()<CR>
 
 nmap <leader>sp :TSHighlightCapturesUnderCursor<CR>
+
+function! HiThere(group) abort
+    let out = trim(execute('hi ' .. a:group))
+    let splits = split(out, ' \+')
+    echon splits[0] .. ' '
+    execute 'echohl ' .. splits[0]
+    echon splits[1] .. ' '
+    echohl None
+    echon join(splits[2:])
+    echom ''
+    if out =~ 'links to'
+        let a = split(out, ' ')[-1]
+        call HiThere(a)
+    endif
+endfunction
+command! -nargs=1 -complete=highlight HiThere call HiThere(<q-args>)

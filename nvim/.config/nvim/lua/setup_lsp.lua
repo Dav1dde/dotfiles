@@ -33,7 +33,7 @@ end
 local opts = { 
     on_attach = on_attach, 
     debounce_text_changes = 150,
-    capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+    capabilities = require('cmp_nvim_lsp').default_capabilities(),
     settings = {
         ["rust-analyzer"] = {
             cargo = {
