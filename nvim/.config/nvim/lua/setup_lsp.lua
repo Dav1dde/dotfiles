@@ -16,17 +16,19 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', 'gW', '<cmd>lua require"telescope.builtin".lsp_dynamic_workspace_symbols{}<CR>', opts)
 
 
-    buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    -- buf_set_keymap('n', '<space>ca', '<cmd>lua require\'telescope.builtin\'.lsp_code_actions{}<CR>', opts)
-    buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+    buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    -- buf_set_keymap('n', '<leader>ca', '<cmd>lua require\'telescope.builtin\'.lsp_code_actions{}<CR>', opts)
+    buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 
-    buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+    buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
     buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
     buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 
     buf_set_keymap('n', '<C-b>', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    buf_set_keymap('n', '<space>b', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    buf_set_keymap('n', '<space>F6', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    buf_set_keymap('n', '<leader>b', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+    buf_set_keymap('n', '<leader>F6', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+
+    buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.format()<CR>', opts)
 end
 
 
