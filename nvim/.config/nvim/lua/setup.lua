@@ -8,6 +8,7 @@ require('setup_cmp')
 
 require('lualine').setup({ options = { theme = 'onedark' }})
 require('tabline').setup({ options = { show_filename_only = true }})
+require('fidget').setup()
 
 require('lsp_lines').setup()
 vim.diagnostic.config({ virtual_lines = false })

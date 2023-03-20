@@ -41,6 +41,7 @@ Plug 'RRethy/nvim-treesitter-textsubjects'
 " Design
 Plug 'hoob3rt/lualine.nvim'
 Plug 'kdheepak/tabline.nvim'
+Plug 'j-hui/fidget.nvim'
 
 " Style
 Plug 'kyazdani42/nvim-web-devicons'
