@@ -1,11 +1,5 @@
 alias j='z'
 
-alias relext='gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell --method org.gnome.Shell.Extensions.ReloadExtension'
-alias scan='scanimage --mode Gray --resolution 300 | pnm2png /dev/stdin'
-alias bindzoom='xmodmap -e "keycode 82 = XF86ScrollUp" && xmodmap -e "keycode 86 = XF86ScrollDown" && xbindkeys'
-
-alias pyclean='find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf'
-
 alias pmvn='mvn -s ~/.m2/settings_poi.xml'
 
 alias ssh="TERM=xterm-256color ssh"

@@ -15,6 +15,7 @@ stow -R \
     kde \
     libinput-gestures \
     redshift \
+    starship \
     systemd \
     vim \
     nvim \

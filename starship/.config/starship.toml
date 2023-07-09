@@ -1,0 +1,38 @@
+format = """
+[┌───](yellow bold) $kubernetes$python$directory$git_branch$git_commit$git_state$git_metrics$git_status$cmd_duration
+[└─](yellow bold) $battery$character"""
+
+[character]
+success_symbol = "[%](cyan bold)"
+error_symbol = "[%](red)"
+
+[directory]
+style = "green"
+truncate_to_repo = false
+
+[cmd_duration]
+format = "[took](200) [$duration]($style) "
+
+[git_branch]
+#format = "[on](200) [$symbol$branch]($style) "
+format = "[<$branch>]($style) "
+style = "cyan bold"
+symbol = ""
+
+[git_status]
+format = '([$all_status$ahead_behind]($style) )'
+
+[[battery.display]]
+threshold = 30
+style = "red"
+
+[python]
+format = '\[[$symbol$virtualenv]($style)\] '
+symbol = '🐍'
+style = "yellow bold"
+disabled = false
+
+[kubernetes]
+format = '\[[$symbol$context]($style):[$namespace]($style)\] '
+style = "bright-cyan bold"
+disabled = true
