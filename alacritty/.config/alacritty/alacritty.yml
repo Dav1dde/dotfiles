@@ -1,6 +1,7 @@
 # https://github.com/alacritty/alacritty/blob/master/alacritty.yml
 
 window:
+  opacity: 1.0
   dynamic_title: true
   padding:
     x: 2
@@ -49,8 +50,6 @@ colors:
     magenta: '0xaf87ff'
     cyan:    '0x51ceff'
     white:   '0xffffff'
-
-background_opacity: 1.0
 
 live_config_reload: true
 

@@ -35,6 +35,7 @@ Plugin 'lambdalisue/fern-hijack.vim'
 Plugin 'lambdalisue/fern-git-status.vim'
 Plugin 'lambdalisue/fern-mapping-git.vim'
 Plugin 't9md/vim-choosewin'
+Plugin 'qpkorr/vim-bufkill'
 "Plugin 'mkitt/tabline.vim'
 " Git
 Plugin 'tpope/vim-fugitive'
@@ -229,7 +230,8 @@ nnoremap <leader><F6> :YcmCompleter RefactorRename<space>
 nnoremap <F2> :lnext<CR>
 
 " Close current buffer with Ctrl+W
-nnoremap <leader>w :bd<CR>
+nnoremap <leader>w :BD<CR>
+nnoremap <leader>W :bd<CR>
 " Swap to previous buffer with Ctrl+Tab
 nnoremap <C-Tab> :b#<CR>
 nnoremap <S-Tab> :CtrlPBuffer<CR>

@@ -53,7 +53,7 @@ function tf_prompt_info() {
     fi
 }
 
-RPS1='$(vi_mode_prompt_info) ${return_code}$(virtualenv_prompt_info)$(kube_ps1)$(tf_prompt_info)'
+RPS1='$(vi_mode_prompt_info) ${return_code}$(virtualenv_prompt_info)$(tf_prompt_info)'
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[cyan]%}‹"
 ZSH_THEME_GIT_PROMPT_SUFFIX="› %{$reset_color%}"

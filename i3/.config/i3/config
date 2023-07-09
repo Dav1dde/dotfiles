@@ -4,7 +4,7 @@ client.focused          #4c7899 #285577 #ffffff #2e9ef4   #285577
 client.urgent           #2f343a #900000 #ffffff #900000   #900000
 
 # Gaps
-gaps inner 8
+gaps inner 3
 gaps outer 3
 
 
@@ -128,6 +128,9 @@ bindsym $mod+Shift+5 move container to workspace $ws5
 bindsym $mod+Shift+6 move container to workspace $ws6
 bindsym $mod+Shift+7 move container to workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move scratchpad
+bindsym $mod+Shift+minus scratchpad show
+bindsym $mod+minus scratchpad show
 
 set $left eDP1
 set $middle DP1
@@ -136,7 +139,7 @@ set $right HDMI2
 
 workspace $ws1 output $middle
 workspace $ws2 output $middle
-workspace $ws3 output $right
+workspace $ws3 output $middle
 workspace $ws4 output $left
 workspace $ws5 output $left
 workspace $ws6 output $middle

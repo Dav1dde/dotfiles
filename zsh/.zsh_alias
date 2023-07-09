@@ -1,4 +1,5 @@
 alias j='z'
+alias ls="exa"
 
 alias relext='gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell --method org.gnome.Shell.Extensions.ReloadExtension'
 alias scan='scanimage --mode Gray --resolution 300 | pnm2png /dev/stdin'
