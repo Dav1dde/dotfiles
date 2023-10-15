@@ -15,7 +15,7 @@ vim.diagnostic.config({ virtual_lines = false })
 
 require('which-key').setup()
 
-require('indent_blankline').setup()
+require('ibl').setup()
 
 require('bufdel').setup({
     next = 'alternate',

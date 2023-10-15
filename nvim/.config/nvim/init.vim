@@ -5,7 +5,8 @@ Plug 'nvim-lua/plenary.nvim'
 
 " LSP
 Plug 'neovim/nvim-lspconfig'
-Plug 'williamboman/nvim-lsp-installer'
+" Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v3.x'}
+Plug 'tamago324/nlsp-settings.nvim'
 " Plug 'glepnir/lspsaga.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -28,6 +29,7 @@ Plug 'folke/which-key.nvim'
 
 " Language Support
 Plug 'posva/vim-vue'
+Plug 'NoahTheDuke/vim-just'
 
 " Utiltiy
 Plug 'terryma/vim-expand-region'
@@ -41,7 +43,7 @@ Plug 'RRethy/nvim-treesitter-textsubjects'
 " Design
 Plug 'hoob3rt/lualine.nvim'
 Plug 'kdheepak/tabline.nvim'
-Plug 'j-hui/fidget.nvim'
+Plug 'j-hui/fidget.nvim', {'tag': 'legacy'}
 
 " Style
 Plug 'kyazdani42/nvim-web-devicons'

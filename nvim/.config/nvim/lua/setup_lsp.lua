@@ -1,5 +1,7 @@
 local nvim_lsp = require('lspconfig')
-local lsp_installer = require("nvim-lsp-installer")
+local nlspsettings = require('nlspsettings')
+
+nlspsettings.setup()
 
 local on_attach = function(client, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -31,18 +33,10 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.format()<CR>', opts)
 end
 
-
 local opts = { 
     on_attach = on_attach, 
     debounce_text_changes = 150,
     capabilities = require('cmp_nvim_lsp').default_capabilities(),
-    settings = {
-        ["rust-analyzer"] = {
-            cargo = {
-                allFeatures = true
-            }
-        }
-    }
 }
 
 -- rust-analyzer is initialized with rust-tools
@@ -51,11 +45,6 @@ local lsp_servers = {'tsserver'}
 for _, lsp in ipairs(lsp_servers) do
     nvim_lsp[lsp].setup(opts)
 end
-
-lsp_installer.on_server_ready(function(server)
-    server:setup(opts)
-end)
-
 
 require('rust-tools').setup({
     tools = {
