@@ -4,6 +4,9 @@ call plug#begin('~/.vim/plugged')
 Plug 'nvim-lua/plenary.nvim'
 
 " LSP
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+
 Plug 'neovim/nvim-lspconfig'
 " Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v3.x'}
 Plug 'tamago324/nlsp-settings.nvim'
@@ -11,7 +14,6 @@ Plug 'tamago324/nlsp-settings.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'nvim-treesitter/playground'
-Plug 'p00f/nvim-ts-rainbow'
 Plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim'
 
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -21,6 +23,7 @@ Plug 'hrsh7th/nvim-cmp'
 
 Plug 'hrsh7th/vim-vsnip'
 Plug 'simrat39/rust-tools.nvim'
+Plug 'pmizio/typescript-tools.nvim'
 
 " UI
 Plug 'nvim-telescope/telescope.nvim'

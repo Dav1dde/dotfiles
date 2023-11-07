@@ -1,5 +1,20 @@
+local mason = require('mason');
+local mason_lspconfig = require('mason-lspconfig');
+
 local nvim_lsp = require('lspconfig')
 local nlspsettings = require('nlspsettings')
+
+mason.setup()
+mason_lspconfig.setup({
+    ensure_installed = {
+        'cssls',
+        'eslint',
+        'emmet_ls',
+        'html',
+        'tailwindcss',
+        'pyright',
+    },
+})
 
 nlspsettings.setup()
 
@@ -19,7 +34,6 @@ local on_attach = function(client, bufnr)
 
 
     buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    -- buf_set_keymap('n', '<leader>ca', '<cmd>lua require\'telescope.builtin\'.lsp_code_actions{}<CR>', opts)
     buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 
     buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
@@ -40,7 +54,9 @@ local opts = {
 }
 
 -- rust-analyzer is initialized with rust-tools
-local lsp_servers = {'tsserver'}
+local lsp_servers = {
+    'cssls', 'eslint', 'emmet_ls', 'html', 'tailwindcss', 'pyright'
+}
 
 for _, lsp in ipairs(lsp_servers) do
     nvim_lsp[lsp].setup(opts)
@@ -53,4 +69,8 @@ require('rust-tools').setup({
         },
     },
     server = opts,
+})
+
+require('typescript-tools').setup({
+    on_attach = on_attach,
 })
