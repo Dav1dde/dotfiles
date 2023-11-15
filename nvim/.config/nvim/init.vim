@@ -43,6 +43,8 @@ Plug 'lukas-reineke/indent-blankline.nvim'
 
 Plug 'RRethy/nvim-treesitter-textsubjects'
 
+Plug 'chentoast/marks.nvim'
+
 " Design
 Plug 'hoob3rt/lualine.nvim'
 Plug 'kdheepak/tabline.nvim'
@@ -162,7 +164,7 @@ map <Esc>[27;6;9~ <C-S-Tab>
 imap <Esc>[27;6;9~ <Esc><C-S-Tab>
 
 " Mouse
-set mouse=
+set mouse=a
 " set mouse=nvi
 " map <ScrollWheelDown> j
 " map <ScrollWheelUp> k

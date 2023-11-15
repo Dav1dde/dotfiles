@@ -22,6 +22,7 @@ require('bufdel').setup({
     quit = false,
 })
 
+require('marks').setup()
 
 require('nvim-treesitter.configs').setup {
     highlight = {
@@ -142,6 +143,7 @@ require('which-key').register({
             'Quick access to all recently accessed/open buffers'
         },
         p = { telescope_find_files, 'Find files in project' },
+        r = { telescope_builtin.resume, 'Resume last picker' },
         l = { '<cmd>lua require("lsp_lines").toggle()<cr>', 'Toggle error lines' },
         w = { '<cmd>BufDel<cr>', 'Delete the current buffer, but keep the window' },
         W = { '<cmd>bd<cr>', 'Delete the current buffer' }
