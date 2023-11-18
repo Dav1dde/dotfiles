@@ -1,20 +1,29 @@
 local mason = require('mason');
 local mason_lspconfig = require('mason-lspconfig');
-
-local nvim_lsp = require('lspconfig')
+local lspconfig = require('lspconfig')
 local nlspsettings = require('nlspsettings')
 
-mason.setup()
-mason_lspconfig.setup({
-    ensure_installed = {
-        'cssls',
-        'eslint',
-        'emmet_ls',
-        'html',
-        'tailwindcss',
-        'pyright',
+-- rust-analyzer is initialized with rust-tools
+-- typescript ist initialized with typescript-tools
+local servers = {
+    cssls = {},
+    eslint = {},
+    emmet_ls = {},
+    html = {},
+    tailwindcss = {},
+    pyright = {},
+    lua_ls = {
+        Lua = {
+            telemetry = { enable = false },
+            diagnostics = {
+                globals = { 'vim' }
+            }
+        }
     },
-})
+}
+
+mason.setup()
+mason_lspconfig.setup({ ensure_installed = vim.tbl_keys(servers) })
 
 nlspsettings.setup()
 
@@ -47,19 +56,15 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.format()<CR>', opts)
 end
 
-local opts = { 
-    on_attach = on_attach, 
+local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+local opts = {
+    on_attach = on_attach,
     debounce_text_changes = 150,
-    capabilities = require('cmp_nvim_lsp').default_capabilities(),
+    capabilities = capabilities,
 }
 
--- rust-analyzer is initialized with rust-tools
-local lsp_servers = {
-    'cssls', 'eslint', 'emmet_ls', 'html', 'tailwindcss', 'pyright'
-}
-
-for _, lsp in ipairs(lsp_servers) do
-    nvim_lsp[lsp].setup(opts)
+for name, settings in pairs(servers) do
+    lspconfig[name].setup(vim.tbl_extend('force', opts, { settings = settings }))
 end
 
 require('rust-tools').setup({

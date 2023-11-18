@@ -1,59 +1,80 @@
 call plug#begin('~/.vim/plugged')
 
-" Libs
+""" Libs
+" The lib everyone needs
 Plug 'nvim-lua/plenary.nvim'
 
-" LSP
+""" LSP
+" Manage/Install LSPs
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
 
+" Lsp Config
 Plug 'neovim/nvim-lspconfig'
-" Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v3.x'}
+" Global and per Project LSP Settings
 Plug 'tamago324/nlsp-settings.nvim'
-" Plug 'glepnir/lspsaga.nvim'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-" Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-Plug 'nvim-treesitter/playground'
-Plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim'
 
+" Treesitter
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/playground'
+" Tiny bit smarter text subjects
+Plug 'RRethy/nvim-treesitter-textsubjects'
+" Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+
+" nvim-cmp stuff
+Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/nvim-cmp'
-
 Plug 'hrsh7th/vim-vsnip'
+
+" Special LSP helpers
 Plug 'simrat39/rust-tools.nvim'
 Plug 'pmizio/typescript-tools.nvim'
 
-" UI
+""" UI
+" Telescope for all things searching
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-ui-select.nvim'
+
+" Keybinds, setting up and previewing
 Plug 'folke/which-key.nvim'
 
-" Language Support
-Plug 'posva/vim-vue'
+""" Language Support
+" Just Files
 Plug 'NoahTheDuke/vim-just'
 
-" Utiltiy
+""" Git
+" Git Integration for Buffers
+Plug 'lewis6991/gitsigns.nvim'
+
+""" Utiltiy
+" Detect tabstop and shiftwidth automatically
+Plug 'tpope/vim-sleuth'
+" Toggle code with comments
+Plug 'numToStr/Comment.nvim'
+" Smart region expansion
 Plug 'terryma/vim-expand-region'
+" Buffer Management, delete buffer and keep the window
 Plug 'ojroques/nvim-bufdel'
-" Plug 'ap/vim-css-color'
+" Fancy Colors
 Plug 'norcalli/nvim-colorizer.lua'
+" Indent Guides
 Plug 'lukas-reineke/indent-blankline.nvim'
-
-Plug 'RRethy/nvim-treesitter-textsubjects'
-
+" Highlight use of the word under the cursor
+Plug 'RRethy/vim-illuminate'
+" Show marks
 Plug 'chentoast/marks.nvim'
 
-" Design
+""" Design
 Plug 'hoob3rt/lualine.nvim'
 Plug 'kdheepak/tabline.nvim'
-Plug 'j-hui/fidget.nvim', {'tag': 'legacy'}
-
-" Style
+" Show Notifications and LSP progress
+Plug 'j-hui/fidget.nvim'
+" File Type Icons
 Plug 'kyazdani42/nvim-web-devicons'
 
-" Themes
+""" Themes
 Plug 'rktjmp/lush.nvim'
 Plug 'tanvirtin/monokai.nvim'
 Plug 'rafamadriz/neon'
@@ -63,35 +84,32 @@ Plug 'adisen99/codeschool.nvim'
 Plug 'EdenEast/nightfox.nvim'
 Plug 'Yazeed1s/minimal.nvim'
 Plug 'sainnhe/sonokai'
-
-Plug 'tjdevries/colorbuddy.nvim'
-
-Plug '~/workspaces/vim/davkai'
-Plug '~/workspaces/vim/onebuddy'
+Plug 'folke/tokyonight.nvim'
 
 call plug#end()
-
-let g:sonokai_disable_terminal_colors = 1
-let g:sonokai_style = 'shusia'
 
 syntax on
 set termguicolors
 filetype plugin indent on
 
-" Lua Configuration
-lua require 'setup'
-
-lua require'colorizer'.setup()
-
-" Vim Config
-
-" colorscheme monokai
-" colorscheme onebuddy
-" colorscheme davkai
+""" Theme
+let g:sonokai_disable_terminal_colors = 1
+let g:sonokai_style = 'shusia'
+let g:sonokai_current_word = 'underline'
 colorscheme sonokai
-" lua require('colorbuddy').colorscheme('onebuddy')
+
+" Manual Overrides
+let s:configuration = sonokai#get_configuration()
+let s:palette = sonokai#get_palette(s:configuration.style, s:configuration.colors_override)
+" call sonokai#highlight('TSParameter', s:palette.purple, s:palette.none, 'italic')
+" hi TSParameter guifg='#f533d8'
+hi TSParameter guifg='#ffb8f4'
+
+""" Lua Configuration
+lua require('setup')
 
 
+""" Vim Config
 set title                       " automaticall set title to the file that is open
 set hidden                      " allow unsaved buffers
 set autochdir                   " change into the directory of the currently opened file
@@ -144,6 +162,9 @@ let mapleader=" "
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
 
+" Yank to clipboard
+vmap Y "+y
+
 " Jump to the end of paste
 vnoremap <silent> y y`]
 vnoremap <silent> p p`]
@@ -165,17 +186,6 @@ imap <Esc>[27;6;9~ <Esc><C-S-Tab>
 
 " Mouse
 set mouse=a
-" set mouse=nvi
-" map <ScrollWheelDown> j
-" map <ScrollWheelUp> k
-
-" Tab Navigation
-nnoremap th :tabfirst<CR>
-nnoremap tk :tabnext<CR>
-nnoremap tj :tabprev<CR>
-nnoremap tl :tablast<CR>
-nnoremap tn :tabnew<CR>
-nnoremap td :tabclose<CR>
 
 " Cleanup trailing whitespaces
 nnoremap <silent> <leader><space> :%s/\s\+$//<CR>:let @/=''<CR>:w<CR>:set nohlsearch<CR>
@@ -184,12 +194,7 @@ nnoremap <silent> <leader><space> :%s/\s\+$//<CR>:let @/=''<CR>:w<CR>:set nohlse
 nnoremap <silent> <leader>n :silent :nohlsearch<CR>
 vnoremap <silent> <leader>n :silent :nohlsearch<CR>
 
-nnoremap <silent> <leader>d :lua vim.diagnostic.goto_next()<CR>
-nnoremap <silent> <F2> :lua vim.diagnostic.goto_next()<CR>
-inoremap <silent> <F2> :lua vim.diagnostic.goto_next()<CR>
-
-nmap <leader>sp :TSHighlightCapturesUnderCursor<CR>
-
+" nmap <leader>sp :TSHighlightCapturesUnderCursor<CR>
 function! HiThere(group) abort
     let out = trim(execute('hi ' .. a:group))
     let splits = split(out, ' \+')
