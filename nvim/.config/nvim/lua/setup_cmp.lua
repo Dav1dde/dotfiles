@@ -4,6 +4,17 @@ local luasnip = require('luasnip')
 require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup({})
 
+require('crates').setup({
+    popup = {
+        autofocus = true,
+    },
+    src = {
+        cmp = {
+            enabled = true,
+        },
+    },
+})
+
 cmp.setup({
     snippet = {
         expand = function(args)
@@ -45,5 +56,6 @@ cmp.setup({
         { name = 'luasnip' },
         { name = 'path' },
         { name = 'buffer' },
+        { name = 'crates' },
     }
 })

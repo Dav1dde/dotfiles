@@ -47,6 +47,8 @@ Plug 'folke/which-key.nvim'
 """ Language Support
 " Just Files
 Plug 'NoahTheDuke/vim-just'
+" Crates in Cargo.toml
+Plug 'saecki/crates.nvim'
 
 """ Git
 " Git Integration for Buffers

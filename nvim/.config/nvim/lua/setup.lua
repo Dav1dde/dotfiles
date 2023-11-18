@@ -6,8 +6,8 @@ require('setup_lsp')
 require('setup_cmp')
 
 require('colorizer').setup()
-require('lualine').setup({ options = { theme = 'onedark' }})
-require('tabline').setup({ options = { show_filename_only = true }})
+require('lualine').setup({ options = { theme = 'onedark' } })
+require('tabline').setup({ options = { show_filename_only = true } })
 require('fidget').setup()
 require('gitsigns').setup()
 require('which-key').setup()
@@ -18,6 +18,7 @@ require('bufdel').setup({
 })
 require('marks').setup()
 require('Comment').setup()
+
 
 require('nvim-treesitter.configs').setup {
     highlight = {
@@ -73,7 +74,7 @@ end
 
 local actions = require('telescope.actions')
 
-require('telescope').setup{
+require('telescope').setup {
     extensions = {
         ['ui-select'] = {
             require('telescope.themes').get_dropdown {
@@ -95,6 +96,7 @@ require('telescope').load_extension('ui-select')
 
 local telescope_builtin = require('telescope.builtin')
 local telescope_sorters = require('telescope.sorters')
+local crates = require('crates')
 
 local WK = {}
 
@@ -159,10 +161,25 @@ function WK.diagnostic_goto_prev()
     })
 end
 
+function WK.show_documentation()
+    local filetype = vim.bo.filetype
+    if vim.tbl_contains({ 'vim', 'help' }, filetype) then
+        vim.cmd('h '..vim.fn.expand('<cword>'))
+    elseif vim.tbl_contains({ 'man' }, filetype) then
+        vim.cmd('Man '..vim.fn.expand('<cword>'))
+    elseif vim.fn.expand('%:t') == 'Cargo.toml' and require('crates').popup_available() then
+        require('crates').show_popup()
+    else
+        vim.lsp.buf.hover()
+    end
+end
+
 require('which-key').register({
+    ['['] = { name = 'previous' },
+    [']'] = { name = 'next' },
     ['<leader>'] = {
         s = {
-            name = "Search",
+            name = 'Search',
             b = { WK.telescope_buffers, 'Search Buffers' },
             d = { telescope_builtin.diagnostics, 'Search Diagnostics' },
             f = { WK.telescope_find_files, 'Search Files' },
@@ -170,12 +187,21 @@ require('which-key').register({
             r = { telescope_builtin.resume, 'Search Resume' },
             w = { telescope_builtin.grep_string, 'Search current Word' },
         },
+        c = {
+            name = 'Crates',
+            v = { crates.show_versions_popup, 'Show Crate Versions' },
+            f = { crates.show_features_popup, 'Edit Crate Features' },
+            d = { crates.show_dependencies_popup, 'Show Crate Dependencies' },
+            u = { crates.update_crate, 'Update Crate' },
+            U = { crates.upgrade_crate, 'Upgrade Crate' },
+        },
         e = { WK.telescope_buffers, 'Search Buffers' },
         p = { WK.telescope_find_files, 'Search Files' },
         r = { telescope_builtin.resume, 'Search Resume' },
         w = { '<CMD>BufDel<CR>', 'Delete the current buffer, but keep the window' },
         W = { '<CMD>bd<CR>', 'Delete the current buffer' }
     },
+    K = { WK.show_documentation, 'Show Documentation' },
     ['<C-p>'] = { WK.telescope_find_files, 'Search Files' },
     ['<C-Tab>'] = { WK.switch_mru_open_buffer, 'Switches to the most recently used open buffer' },
     -- Quick Fix
@@ -191,14 +217,22 @@ require('which-key').register({
     -- Diagnostics
     ['[d'] = { WK.diagnostic_goto_prev, 'Goto previous diagnostic' },
     [']d'] = { WK.diagnostic_goto_next, 'Goto next diagnostic' },
-    ['[d'] = { WK.diagnostic_goto_prev, 'Goto previous diagnostic' },
-    [']d'] = { WK.diagnostic_goto_next, 'Goto next diagnostic' },
     -- Illuminate
     ['[r'] = { require('illuminate').goto_prev_reference, 'Goto previous reference' }, -- <a-n>
-    [']r'] = { require('illuminate').goto_next_reference, 'Goto next reference' }, -- <a-p>
+    [']r'] = { require('illuminate').goto_next_reference, 'Goto next reference' },     -- <a-p>
     -- Tabs
     ['[t'] = { '<CMD>tprev<CR>', 'Previous Quickfix Item' },
     [']t'] = { '<CMD>tnext<CR>', 'Next Quickfix Item' },
     ['[T'] = { '<CMD>tfirst<CR>', 'First Quickfix Item' },
     [']T'] = { '<CMD>tlast<CR>', 'Last Quickfix Item' },
 })
+
+require('which-key').register({
+    ['<leader>'] = {
+        c = {
+            name = 'Crates',
+            u = { crates.update_crates, 'Update selected Crates' },
+            U = { crates.upgrade_crates, 'Upgrade selected Crates' },
+        },
+    },
+}, { mode = 'v' })
