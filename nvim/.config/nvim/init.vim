@@ -72,7 +72,9 @@ Plug 'RRethy/vim-illuminate'
 " Show marks
 Plug 'chentoast/marks.nvim'
 " Autoclose brackets
-Plug 'm4xshen/autoclose.nvim'
+" Plug 'm4xshen/autoclose.nvim'
+" Plug 'altermo/ultimate-autopair.nvim'
+Plug 'windwp/nvim-autopairs'
 
 """ Design
 Plug 'hoob3rt/lualine.nvim'

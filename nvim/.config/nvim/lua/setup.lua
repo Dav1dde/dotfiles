@@ -18,7 +18,9 @@ require('bufdel').setup({
 })
 require('marks').setup()
 require('Comment').setup()
-require("autoclose").setup()
+-- require('autoclose').setup()
+-- require('ultimate-autopair').setup({})
+require('nvim-autopairs').setup {}
 
 
 require('nvim-treesitter.configs').setup {
