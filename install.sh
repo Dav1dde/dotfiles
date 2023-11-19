@@ -13,6 +13,7 @@ stow -R \
     fontconfig \
     i3 \
     kde \
+    kitty \
     libinput-gestures \
     redshift \
     starship \
