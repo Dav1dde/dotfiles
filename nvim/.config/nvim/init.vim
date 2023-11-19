@@ -71,6 +71,8 @@ Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'RRethy/vim-illuminate'
 " Show marks
 Plug 'chentoast/marks.nvim'
+" Autoclose brackets
+Plug 'm4xshen/autoclose.nvim'
 
 """ Design
 Plug 'hoob3rt/lualine.nvim'

@@ -18,6 +18,7 @@ require('bufdel').setup({
 })
 require('marks').setup()
 require('Comment').setup()
+require("autoclose").setup()
 
 
 require('nvim-treesitter.configs').setup {
@@ -206,7 +207,7 @@ require('which-key').register({
     ['<C-Tab>'] = { WK.switch_mru_open_buffer, 'Switches to the most recently used open buffer' },
     -- Quick Fix
     ['[q'] = { '<CMD>cprev<CR>', 'Previous Quickfix Item' },
-    [']c'] = { '<CMD>cnext<CR>', 'Next Quickfix Item' },
+    [']q'] = { '<CMD>cnext<CR>', 'Next Quickfix Item' },
     ['[Q'] = { '<CMD>cfirst<CR>', 'First Quickfix Item' },
     [']Q'] = { '<CMD>clast<CR>', 'Last Quickfix Item' },
     -- Location List
