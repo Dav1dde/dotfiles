@@ -27,38 +27,82 @@ mason_lspconfig.setup({ ensure_installed = vim.tbl_keys(servers) })
 
 nlspsettings.setup()
 
-local on_attach = function(client, bufnr)
-    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-    local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+local LSP = {}
 
-    local opts = { noremap = true, silent = true }
+function LSP.make_find_into_goto_handler(name)
+    local handler = vim.lsp.handlers[name]
+    if handler == nil then
+        error('no parent handler for: '..name)
+    end
+
+    local inner = function(a, result, ctx, config)
+        if #result >= 1 and #result <= 2 then
+            local client = vim.lsp.get_client_by_id(ctx.client_id)
+            local pp = ctx.params.position
+
+            -- Find the one item that is not the one we requested
+            for _, item in ipairs(result) do
+                local rs = item.range['start']
+                local re = item.range['end']
+                local inLineRange = rs.line >= pp.line and re.line <= pp.line
+                local inCharacterRange = rs.line >= pp.line and re.line <= pp.line
+
+                if not inLineRange and not inCharacterRange then
+                    vim.lsp.util.show_document(item, client.offset_encoding, { reuse_win = true })
+                    return
+                end
+            end
+        end
+
+        handler(a, result, ctx, config)
+    end
+
+    return { [name] = inner }
+end
+
+function LSP.make_handlers(...)
+    return vim.tbl_extend('force', ...)
+end
+
+function LSP.on_attach(client, bufnr)
+    local nmap = function(keys, func, desc)
+        if desc then
+            desc = 'LSP: ' .. desc
+        end
+        vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc, silent = true })
+    end
 
     -- See `:help vim.lsp.*`
-    buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-    buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-    buf_set_keymap('n', 'g0', '<cmd>lua require"telescope.builtin".lsp_document_symbols{}<CR>', opts)
-    buf_set_keymap('n', 'gW', '<cmd>lua require"telescope.builtin".lsp_dynamic_workspace_symbols{}<CR>', opts)
+    nmap('gD', vim.lsp.buf.declaration, 'Goto Declaration')
+    nmap('gd', vim.lsp.buf.definition, 'Goto Definition')
+    nmap('gi', vim.lsp.buf.implementation, 'Goto Implementation')
+    nmap('gr', vim.lsp.buf.references, 'Show References / Goto Reference')
+    nmap('g0', require('telescope.builtin').lsp_document_symbols, 'Show Document Symbols')
+    nmap('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Show Workspace Symbols')
 
+    nmap('<leader>rn', vim.lsp.buf.rename, 'Rename Symbol')
+    nmap('<leader>ca', vim.lsp.buf.code_action, 'Code Actions')
 
-    buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+    nmap('<leader>q', vim.lsp.buf.hover, 'Show Hover / Docs')
+    nmap('K', vim.lsp.buf.hover, 'Show Hover / Docs')
+    nmap('<C-k>', vim.lsp.buf.signature_help, 'Show Signature Help')
 
-    buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+    nmap('<leader>f', vim.lsp.buf.format, 'Format the current Buffer')
 
-    buf_set_keymap('n', '<C-b>', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    buf_set_keymap('n', '<leader>b', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    buf_set_keymap('n', '<leader>F6', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-
-    buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.format()<CR>', opts)
+    -- Some remainders of my Intellij muscle memory
+    nmap('<C-b>', vim.lsp.buf.implementation, 'Goto Implementation')
+    nmap('<leader>b', vim.lsp.buf.implementation, 'Goto Implementation')
+    nmap('<leader>F6', vim.lsp.buf.rename, 'Rename Symbol')
 end
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 local opts = {
-    on_attach = on_attach,
+    on_attach = LSP.on_attach,
+    handlers = LSP.make_handlers(
+        -- Declaration, Definition and Implementation already jump to the location if there is only a single choice
+        LSP.make_find_into_goto_handler('textDocument/references'),
+        {}
+    ),
     debounce_text_changes = 150,
     capabilities = capabilities,
 }
@@ -76,6 +120,4 @@ require('rust-tools').setup({
     server = opts,
 })
 
-require('typescript-tools').setup({
-    on_attach = on_attach,
-})
+require('typescript-tools').setup(opts)
