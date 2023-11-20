@@ -190,9 +190,14 @@ nnoremap j gj
 nnoremap k gk
 
 " Make special Tab escapes work in vim
-map <Esc>[27;5;9~ <C-Tab>
-map <Esc>[27;6;9~ <C-S-Tab>
-imap <Esc>[27;6;9~ <Esc><C-S-Tab>
+if has('linux')
+    map <Esc>[27;5;9~ <C-Tab>
+    map <Esc>[27;6;9~ <C-S-Tab>
+    imap <Esc>[27;6;9~ <Esc><C-S-Tab>
+elseif has('mac')
+    map ˜ <A-n>
+    map π <A-p>
+endif
 
 " Mouse
 set mouse=a
