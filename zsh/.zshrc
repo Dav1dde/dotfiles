@@ -102,4 +102,9 @@ export NODE_OPTIONS=--max_old_space_size=8192
 
 source ~/.zsh_alias
 
+# Environment specific overrides which are not checked in
+if [[ -f "~/.zshrc.env" ]]; then
+  source "~/.zshrc.env"
+fi
+
 eval $(starship init zsh)
