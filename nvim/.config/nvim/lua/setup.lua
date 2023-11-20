@@ -21,6 +21,12 @@ require('Comment').setup()
 -- require('autoclose').setup()
 -- require('ultimate-autopair').setup({})
 require('nvim-autopairs').setup {}
+require("nvim-lightbulb").setup({
+    action_kinds = { 'quickfix', 'source' },
+    sign = { enabled = false },
+    virtual_text = { enabled = true },
+    autocmd = { enabled = true }
+})
 
 
 require('nvim-treesitter.configs').setup {
@@ -167,9 +173,9 @@ end
 function WK.show_documentation()
     local filetype = vim.bo.filetype
     if vim.tbl_contains({ 'vim', 'help' }, filetype) then
-        vim.cmd('h '..vim.fn.expand('<cword>'))
+        vim.cmd('h ' .. vim.fn.expand('<cword>'))
     elseif vim.tbl_contains({ 'man' }, filetype) then
-        vim.cmd('Man '..vim.fn.expand('<cword>'))
+        vim.cmd('Man ' .. vim.fn.expand('<cword>'))
     elseif vim.fn.expand('%:t') == 'Cargo.toml' and require('crates').popup_available() then
         require('crates').show_popup()
     else

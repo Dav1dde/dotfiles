@@ -32,7 +32,7 @@ local LSP = {}
 function LSP.make_find_into_goto_handler(name)
     local handler = vim.lsp.handlers[name]
     if handler == nil then
-        error('no parent handler for: '..name)
+        error('no parent handler for: ' .. name)
     end
 
     local inner = function(a, result, ctx, config)
@@ -64,6 +64,15 @@ function LSP.make_handlers(...)
     return vim.tbl_extend('force', ...)
 end
 
+function LSP.code_action_quickfix()
+    vim.lsp.buf.code_action({
+        context = {
+            only = { 'quickfix', 'source' },
+        },
+        apply = true
+    })
+end
+
 function LSP.on_attach(client, bufnr)
     local nmap = function(keys, func, desc)
         if desc then
@@ -82,6 +91,7 @@ function LSP.on_attach(client, bufnr)
 
     nmap('<leader>rn', vim.lsp.buf.rename, 'Rename Symbol')
     nmap('<leader>ca', vim.lsp.buf.code_action, 'Code Actions')
+    nmap('<A-Cr>', LSP.code_action_quickfix, 'Autofix')
 
     nmap('<leader>q', vim.lsp.buf.hover, 'Show Hover / Docs')
     nmap('K', vim.lsp.buf.hover, 'Show Hover / Docs')
@@ -99,7 +109,7 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protoc
 local opts = {
     on_attach = LSP.on_attach,
     handlers = LSP.make_handlers(
-        -- Declaration, Definition and Implementation already jump to the location if there is only a single choice
+    -- Declaration, Definition and Implementation already jump to the location if there is only a single choice
         LSP.make_find_into_goto_handler('textDocument/references'),
         {}
     ),

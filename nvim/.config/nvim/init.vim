@@ -75,6 +75,8 @@ Plug 'chentoast/marks.nvim'
 " Plug 'm4xshen/autoclose.nvim'
 " Plug 'altermo/ultimate-autopair.nvim'
 Plug 'windwp/nvim-autopairs'
+" Code Action Bubble
+Plug 'kosayoda/nvim-lightbulb'
 
 """ Design
 Plug 'hoob3rt/lualine.nvim'
@@ -111,6 +113,7 @@ colorscheme sonokai
 " Manual Overrides
 let s:configuration = sonokai#get_configuration()
 let s:palette = sonokai#get_palette(s:configuration.style, s:configuration.colors_override)
+call sonokai#highlight('LightBulbVirtualText', s:palette.yellow, s:palette.none)
 " call sonokai#highlight('TSParameter', s:palette.purple, s:palette.none, 'italic')
 " hi TSParameter guifg='#f533d8'
 hi TSParameter guifg='#ffb8f4'
