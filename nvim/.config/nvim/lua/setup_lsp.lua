@@ -64,6 +64,35 @@ function LSP.make_handlers(...)
     return vim.tbl_extend('force', ...)
 end
 
+function LSP.setup_codelens_refresh(client, bufnr)
+    local status_ok, codelens_supported = pcall(function()
+        return client.supports_method("textDocument/codeLens")
+    end)
+
+    if not status_ok or not codelens_supported then
+        return false
+    end
+
+    local group = "lsp_code_lens_refresh"
+    local cl_events = { "BufEnter", "InsertLeave" }
+    local ok, cl_autocmds = pcall(vim.api.nvim_get_autocmds, {
+        group = group,
+        buffer = bufnr,
+        event = cl_events,
+    })
+    if ok and #cl_autocmds > 0 then
+        return false
+    end
+
+    vim.api.nvim_create_augroup(group, { clear = false })
+    vim.api.nvim_create_autocmd(cl_events, {
+        group = group,
+        buffer = bufnr,
+        callback = vim.lsp.codelens.refresh,
+    })
+    return true
+end
+
 function LSP.code_action_quickfix()
     vim.lsp.buf.code_action({
         context = {
@@ -103,6 +132,10 @@ function LSP.on_attach(client, bufnr)
     nmap('<C-b>', vim.lsp.buf.implementation, 'Goto Implementation')
     nmap('<leader>b', vim.lsp.buf.implementation, 'Goto Implementation')
     nmap('<leader>F6', vim.lsp.buf.rename, 'Rename Symbol')
+
+    if LSP.setup_codelens_refresh(client, bufnr) then
+        nmap('<leader>cr', vim.lsp.codelens.run, 'Code Lens Run')
+    end
 end
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
