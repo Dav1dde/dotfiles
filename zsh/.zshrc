@@ -107,4 +107,4 @@ if [[ -f "${HOME}/.zshrc.env" ]]; then
   source "${HOME}/.zshrc.env"
 fi
 
-eval $(starship init zsh)
+eval "$(starship init zsh)"
