@@ -16,7 +16,10 @@ local servers = {
         Lua = {
             telemetry = { enable = false },
             diagnostics = {
-                globals = { 'vim' }
+                globals = {
+                    'vim', -- Vim
+                    'redis', 'ARGV', 'KEYS', -- Redis
+                }
             }
         }
     },
