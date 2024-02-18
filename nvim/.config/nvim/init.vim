@@ -36,6 +36,10 @@ Plug 'rafamadriz/friendly-snippets'
 Plug 'simrat39/rust-tools.nvim'
 Plug 'pmizio/typescript-tools.nvim'
 
+""" Debugging
+Plug 'mfussenegger/nvim-dap'
+Plug 'rcarriga/nvim-dap-ui'
+
 """ UI
 " Telescope for all things searching
 Plug 'nvim-telescope/telescope.nvim'

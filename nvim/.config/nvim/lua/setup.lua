@@ -3,6 +3,7 @@ local Path = require('plenary.path')
 local rooter = require('rooter');
 
 require('setup_lsp')
+require('setup_dap')
 require('setup_cmp')
 
 require('colorizer').setup()
