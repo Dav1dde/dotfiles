@@ -3,7 +3,7 @@ local mason_lspconfig = require('mason-lspconfig');
 local lspconfig = require('lspconfig')
 local nlspsettings = require('nlspsettings')
 
--- rust-analyzer is initialized with rust-tools
+-- rust-analyzer is initialized with rustaceanvim
 -- typescript ist initialized with typescript-tools
 local servers = {
     cssls = {},
@@ -17,7 +17,7 @@ local servers = {
             telemetry = { enable = false },
             diagnostics = {
                 globals = {
-                    'vim', -- Vim
+                    'vim',                   -- Vim
                     'redis', 'ARGV', 'KEYS', -- Redis
                 }
             }
@@ -113,6 +113,8 @@ function LSP.on_attach(client, bufnr)
         vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc, silent = true })
     end
 
+    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+
     -- See `:help vim.lsp.*`
     nmap('gD', vim.lsp.buf.declaration, 'Goto Declaration')
     nmap('gd', vim.lsp.buf.definition, 'Goto Definition')
@@ -125,19 +127,18 @@ function LSP.on_attach(client, bufnr)
     nmap('<leader>ca', vim.lsp.buf.code_action, 'Code Actions')
     nmap('<A-Cr>', LSP.code_action_quickfix, 'Autofix')
 
-    nmap('<leader>q', vim.lsp.buf.hover, 'Show Hover / Docs')
-    nmap('K', vim.lsp.buf.hover, 'Show Hover / Docs')
     nmap('<C-k>', vim.lsp.buf.signature_help, 'Show Signature Help')
 
     nmap('<leader>f', vim.lsp.buf.format, 'Format the current Buffer')
 
-    -- Some remainders of my Intellij muscle memory
-    nmap('<C-b>', vim.lsp.buf.implementation, 'Goto Implementation')
-    nmap('<leader>b', vim.lsp.buf.implementation, 'Goto Implementation')
-    nmap('<leader>F6', vim.lsp.buf.rename, 'Rename Symbol')
-
     if LSP.setup_codelens_refresh(client, bufnr) then
         nmap('<leader>cr', vim.lsp.codelens.run, 'Code Lens Run')
+    end
+
+    if string.match(client.name, 'rust.analyzer') then
+        nmap('god', function() vim.cmd.RustLsp('openDocs') end, 'Open Documentation')
+        nmap('goc', function() vim.cmd.RustLsp('openCargo') end, 'Open Cargo.toml')
+        nmap('gop', function() vim.cmd.RustLsp('parentModule') end, 'Open Parent Module')
     end
 end
 
@@ -153,20 +154,19 @@ local opts = {
     capabilities = capabilities,
     cmd_env = {
         RUSTUP_TOOLCHAIN = "stable"
-    }
+    },
 }
 
 for name, settings in pairs(servers) do
     lspconfig[name].setup(vim.tbl_extend('force', opts, { settings = settings }))
 end
 
-require('rust-tools').setup({
-    tools = {
-        inlay_hints = {
-            show_parameter_hints = false,
-        },
-    },
-    server = opts,
-})
+vim.g.rustaceanvim = {
+    server = vim.tbl_extend('error', opts, {
+        settings = function(project_root)
+            return nlspsettings.get_settings(project_root, 'rust_analyzer')
+        end,
+    })
+}
 
 require('typescript-tools').setup(opts)

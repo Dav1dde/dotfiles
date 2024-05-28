@@ -33,7 +33,7 @@ Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'rafamadriz/friendly-snippets'
 
 " Special LSP helpers
-Plug 'simrat39/rust-tools.nvim'
+Plug 'mrcjkb/rustaceanvim'
 Plug 'pmizio/typescript-tools.nvim'
 
 """ UI

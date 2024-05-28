@@ -207,6 +207,7 @@ require('which-key').register({
         e = { WK.telescope_buffers, 'Search Buffers' },
         p = { WK.telescope_find_files, 'Search Files' },
         r = { telescope_builtin.resume, 'Search Resume' },
+        q = { WK.show_documentation, 'Show Documentation' },
         w = { '<CMD>BufDel<CR>', 'Delete the current buffer, but keep the window' },
         W = { '<CMD>bd<CR>', 'Delete the current buffer' }
     },
