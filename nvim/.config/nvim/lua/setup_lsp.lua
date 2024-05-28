@@ -151,6 +151,9 @@ local opts = {
     ),
     debounce_text_changes = 150,
     capabilities = capabilities,
+    cmd_env = {
+        RUSTUP_TOOLCHAIN = "stable"
+    }
 }
 
 for name, settings in pairs(servers) do
