@@ -184,66 +184,62 @@ function WK.show_documentation()
     end
 end
 
-require('which-key').register({
-    ['['] = { name = 'previous' },
-    [']'] = { name = 'next' },
-    ['<leader>'] = {
-        s = {
-            name = 'Search',
-            b = { WK.telescope_buffers, 'Search Buffers' },
-            d = { telescope_builtin.diagnostics, 'Search Diagnostics' },
-            f = { WK.telescope_find_files, 'Search Files' },
-            g = { WK.telescope_live_grep, 'Search Grep' },
-            r = { telescope_builtin.resume, 'Search Resume' },
-            w = { telescope_builtin.grep_string, 'Search current Word' },
-        },
-        c = {
-            name = 'Crates',
-            v = { crates.show_versions_popup, 'Show Crate Versions' },
-            f = { crates.show_features_popup, 'Edit Crate Features' },
-            d = { crates.show_dependencies_popup, 'Show Crate Dependencies' },
-            u = { crates.update_crate, 'Update Crate' },
-            U = { crates.upgrade_crate, 'Upgrade Crate' },
-        },
-        e = { WK.telescope_buffers, 'Search Buffers' },
-        p = { WK.telescope_find_files, 'Search Files' },
-        r = { telescope_builtin.resume, 'Search Resume' },
-        q = { WK.show_documentation, 'Show Documentation' },
-        w = { '<CMD>BufDel<CR>', 'Delete the current buffer, but keep the window' },
-        W = { '<CMD>bd<CR>', 'Delete the current buffer' }
+require('which-key').add({
+    {
+        { "<C-Tab>", WK.switch_mru_open_buffer, desc = "Switches to the most recently used open buffer" },
+        { "<C-p>", WK.telescope_find_files, desc = "Search Files" },
+        { "<leader>W", "<CMD>bd<CR>", desc = "Delete the current buffer" },
+        -- Crates
+        { "<leader>c", group = "Crates" },
+        { "<leader>cU", crates.upgrade_crate, desc = "Upgrade Crate" },
+        { "<leader>cd", crates.show_dependencies_popup, desc = "Show Crate Dependencies" },
+        { "<leader>cf", crates.show_features_popup, desc = "Edit Crate Features" },
+        { "<leader>cu", crates.update_crate, desc = "Update Crate" },
+        { "<leader>cv", crates.show_versions_popup, desc = "Show Crate Versions" },
+        -- Telescope
+        { "<leader>e", WK.telescope_buffers, desc = "Search Buffers" },
+        { "<leader>p", WK.telescope_find_files, desc = "Search Files" },
+        { "<leader>q", WK.show_documentation, desc = "Show Documentation" },
+        { "<leader>r", telescope_builtin.resume, desc = "Search Resume" },
+        -- Search
+        { "<leader>s", group = "Search" },
+        { "<leader>sb", WK.telescope_buffers, desc = "Search Buffers" },
+        { "<leader>sd", telescope_builtin.diagnostics, desc = "Search Diagnostics" },
+        { "<leader>sf", WK.telescope_find_files, desc = "Search Files" },
+        { "<leader>sg", WK.telescope_live_grep, desc = "Search Grep" },
+        { "<leader>sr", telescope_builtin.resume, desc = "Search Resume" },
+        { "<leader>sw", telescope_builtin.grep_string, desc = "Search current Word" },
+        { "<leader>w", "<CMD>BufDel<CR>", desc = "Delete the current buffer, but keep the window" },
+        { "K", WK.show_documentation, desc = "Show Documentation" },
+        -- Previous/Next Groups
+        { "[", group = "previous" },
+        { "]", group = "next" },
+        -- Quick Fix
+        { "[q", "<CMD>cprev<CR>", desc = "Previous Quickfix Item" },
+        { "]q", "<CMD>cnext<CR>", desc = "Next Quickfix Item" },
+        { "[Q", "<CMD>cfirst<CR>", desc = "First Quickfix Item" },
+        { "]Q", "<CMD>clast<CR>", desc = "Last Quickfix Item" },
+        -- Location list
+        { "[l", "<CMD>lprev<CR>", desc = "Previous Location Item" },
+        { "]l", "<CMD>lnext<CR>", desc = "Next Location Item" },
+        { "[U", "<CMD>lfirst<CR>", desc = "First Location Item" },
+        { "]U", "<CMD>llast<CR>", desc = "Last Location Item" },
+        -- Diagnostics
+        { "[d", WK.diagnostic_goto_prev, desc = "Goto previous diagnostic" },
+        { "]d", WK.diagnostic_goto_next, desc = "Goto next diagnostic" },
+        -- Illuminate
+        { "[r", require('illuminate').goto_prev_reference, desc = "Goto previous reference" },
+        { "]r", require('illuminate').goto_next_reference, desc = "Goto next reference" },
+        -- Tabs
+        { "[t", "<CMD>tprev<CR>", desc = "Previous Tab Item" },
+        { "]t", "<CMD>tnext<CR>", desc = "Next Tab Item" },
+        { "[T", "<CMD>tfirst<CR>", desc = "First Tab Item" },
+        { "]T", "<CMD>tlast<CR>", desc = "Last Tab Item" },
     },
-    K = { WK.show_documentation, 'Show Documentation' },
-    ['<C-p>'] = { WK.telescope_find_files, 'Search Files' },
-    ['<C-Tab>'] = { WK.switch_mru_open_buffer, 'Switches to the most recently used open buffer' },
-    -- Quick Fix
-    ['[q'] = { '<CMD>cprev<CR>', 'Previous Quickfix Item' },
-    [']q'] = { '<CMD>cnext<CR>', 'Next Quickfix Item' },
-    ['[Q'] = { '<CMD>cfirst<CR>', 'First Quickfix Item' },
-    [']Q'] = { '<CMD>clast<CR>', 'Last Quickfix Item' },
-    -- Location List
-    ['[l'] = { '<CMD>lprev<CR>', 'Previous Location Item' },
-    [']l'] = { '<CMD>lnext<CR>', 'Next Location Item' },
-    ['[U'] = { '<CMD>lprev<CR>', 'First Location Item' },
-    [']U'] = { '<CMD>lnext<CR>', 'Last Location Item' },
-    -- Diagnostics
-    ['[d'] = { WK.diagnostic_goto_prev, 'Goto previous diagnostic' },
-    [']d'] = { WK.diagnostic_goto_next, 'Goto next diagnostic' },
-    -- Illuminate
-    ['[r'] = { require('illuminate').goto_prev_reference, 'Goto previous reference' }, -- <a-n>
-    [']r'] = { require('illuminate').goto_next_reference, 'Goto next reference' },     -- <a-p>
-    -- Tabs
-    ['[t'] = { '<CMD>tprev<CR>', 'Previous Quickfix Item' },
-    [']t'] = { '<CMD>tnext<CR>', 'Next Quickfix Item' },
-    ['[T'] = { '<CMD>tfirst<CR>', 'First Quickfix Item' },
-    [']T'] = { '<CMD>tlast<CR>', 'Last Quickfix Item' },
+    {
+        mode = { "v" },
+        { "<leader>c",  group = "Crates" },
+        { "<leader>cU", crates.update_crates,  desc = "Upgrade selected Crates" },
+        { "<leader>cu", crates.upgrade_crates, desc = "Update selected Crates" },
+    }
 })
-
-require('which-key').register({
-    ['<leader>'] = {
-        c = {
-            name = 'Crates',
-            u = { crates.update_crates, 'Update selected Crates' },
-            U = { crates.upgrade_crates, 'Upgrade selected Crates' },
-        },
-    },
-}, { mode = 'v' })

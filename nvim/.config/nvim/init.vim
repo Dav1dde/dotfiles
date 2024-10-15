@@ -88,6 +88,7 @@ Plug 'kdheepak/tabline.nvim'
 Plug 'j-hui/fidget.nvim'
 " File Type Icons
 Plug 'kyazdani42/nvim-web-devicons'
+Plug 'echasnovski/mini.icons'
 
 """ Themes
 Plug 'rktjmp/lush.nvim'
