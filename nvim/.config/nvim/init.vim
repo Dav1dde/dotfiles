@@ -44,6 +44,9 @@ Plug 'nvim-telescope/telescope-ui-select.nvim'
 " Keybinds, setting up and previewing
 Plug 'folke/which-key.nvim'
 
+" Better errors and quickfix lists
+Plug 'folke/trouble.nvim'
+
 """ Language Support
 " Just Files
 Plug 'NoahTheDuke/vim-just'

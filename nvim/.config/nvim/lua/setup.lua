@@ -95,6 +95,7 @@ require('telescope').setup {
         path_display = telescope_path_display,
         mappings = {
             i = {
+                ["<C-e>"] = { "<esc>", type = "command" },
                 ['<esc>'] = actions.close
             },
         },
