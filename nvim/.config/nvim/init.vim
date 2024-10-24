@@ -209,6 +209,10 @@ endif
 " Mouse
 set mouse=a
 
+" Spell checking
+set spell
+set spelllang=en,de
+
 " Cleanup trailing whitespaces
 nnoremap <silent> <leader><space> :%s/\s\+$//<CR>:let @/=''<CR>:w<CR>:set nohlsearch<CR>
 
