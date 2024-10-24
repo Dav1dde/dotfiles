@@ -91,6 +91,13 @@ require('telescope').setup {
             }
         }
     },
+    pickers = {
+        live_grep = {
+            additional_args = function(opts)
+                return { "--hidden" }
+            end
+        },
+    },
     defaults = {
         path_display = telescope_path_display,
         mappings = {
@@ -186,55 +193,55 @@ end
 
 require('which-key').add({
     {
-        { "<C-Tab>", WK.switch_mru_open_buffer, desc = "Switches to the most recently used open buffer" },
-        { "<C-p>", WK.telescope_find_files, desc = "Search Files" },
-        { "<leader>W", "<CMD>bd<CR>", desc = "Delete the current buffer" },
+        { "<C-Tab>",    WK.switch_mru_open_buffer,                 desc = "Switches to the most recently used open buffer" },
+        { "<C-p>",      WK.telescope_find_files,                   desc = "Search Files" },
+        { "<leader>W",  "<CMD>bd<CR>",                             desc = "Delete the current buffer" },
         -- Crates
-        { "<leader>c", group = "Crates" },
-        { "<leader>cU", crates.upgrade_crate, desc = "Upgrade Crate" },
-        { "<leader>cd", crates.show_dependencies_popup, desc = "Show Crate Dependencies" },
-        { "<leader>cf", crates.show_features_popup, desc = "Edit Crate Features" },
-        { "<leader>cu", crates.update_crate, desc = "Update Crate" },
-        { "<leader>cv", crates.show_versions_popup, desc = "Show Crate Versions" },
+        { "<leader>c",  group = "Crates" },
+        { "<leader>cU", crates.upgrade_crate,                      desc = "Upgrade Crate" },
+        { "<leader>cd", crates.show_dependencies_popup,            desc = "Show Crate Dependencies" },
+        { "<leader>cf", crates.show_features_popup,                desc = "Edit Crate Features" },
+        { "<leader>cu", crates.update_crate,                       desc = "Update Crate" },
+        { "<leader>cv", crates.show_versions_popup,                desc = "Show Crate Versions" },
         -- Telescope
-        { "<leader>e", WK.telescope_buffers, desc = "Search Buffers" },
-        { "<leader>p", WK.telescope_find_files, desc = "Search Files" },
-        { "<leader>q", WK.show_documentation, desc = "Show Documentation" },
-        { "<leader>r", telescope_builtin.resume, desc = "Search Resume" },
+        { "<leader>e",  WK.telescope_buffers,                      desc = "Search Buffers" },
+        { "<leader>p",  WK.telescope_find_files,                   desc = "Search Files" },
+        { "<leader>q",  WK.show_documentation,                     desc = "Show Documentation" },
+        { "<leader>r",  telescope_builtin.resume,                  desc = "Search Resume" },
         -- Search
-        { "<leader>s", group = "Search" },
-        { "<leader>sb", WK.telescope_buffers, desc = "Search Buffers" },
-        { "<leader>sd", telescope_builtin.diagnostics, desc = "Search Diagnostics" },
-        { "<leader>sf", WK.telescope_find_files, desc = "Search Files" },
-        { "<leader>sg", WK.telescope_live_grep, desc = "Search Grep" },
-        { "<leader>sr", telescope_builtin.resume, desc = "Search Resume" },
-        { "<leader>sw", telescope_builtin.grep_string, desc = "Search current Word" },
-        { "<leader>w", "<CMD>BufDel<CR>", desc = "Delete the current buffer, but keep the window" },
-        { "K", WK.show_documentation, desc = "Show Documentation" },
+        { "<leader>s",  group = "Search" },
+        { "<leader>sb", WK.telescope_buffers,                      desc = "Search Buffers" },
+        { "<leader>sd", telescope_builtin.diagnostics,             desc = "Search Diagnostics" },
+        { "<leader>sf", WK.telescope_find_files,                   desc = "Search Files" },
+        { "<leader>sg", WK.telescope_live_grep,                    desc = "Search Grep" },
+        { "<leader>sr", telescope_builtin.resume,                  desc = "Search Resume" },
+        { "<leader>sw", telescope_builtin.grep_string,             desc = "Search current Word" },
+        { "<leader>w",  "<CMD>BufDel<CR>",                         desc = "Delete the current buffer, but keep the window" },
+        { "K",          WK.show_documentation,                     desc = "Show Documentation" },
         -- Previous/Next Groups
-        { "[", group = "previous" },
-        { "]", group = "next" },
+        { "[",          group = "previous" },
+        { "]",          group = "next" },
         -- Quick Fix
-        { "[q", "<CMD>cprev<CR>", desc = "Previous Quickfix Item" },
-        { "]q", "<CMD>cnext<CR>", desc = "Next Quickfix Item" },
-        { "[Q", "<CMD>cfirst<CR>", desc = "First Quickfix Item" },
-        { "]Q", "<CMD>clast<CR>", desc = "Last Quickfix Item" },
+        { "[q",         "<CMD>cprev<CR>",                          desc = "Previous Quickfix Item" },
+        { "]q",         "<CMD>cnext<CR>",                          desc = "Next Quickfix Item" },
+        { "[Q",         "<CMD>cfirst<CR>",                         desc = "First Quickfix Item" },
+        { "]Q",         "<CMD>clast<CR>",                          desc = "Last Quickfix Item" },
         -- Location list
-        { "[l", "<CMD>lprev<CR>", desc = "Previous Location Item" },
-        { "]l", "<CMD>lnext<CR>", desc = "Next Location Item" },
-        { "[U", "<CMD>lfirst<CR>", desc = "First Location Item" },
-        { "]U", "<CMD>llast<CR>", desc = "Last Location Item" },
+        { "[l",         "<CMD>lprev<CR>",                          desc = "Previous Location Item" },
+        { "]l",         "<CMD>lnext<CR>",                          desc = "Next Location Item" },
+        { "[U",         "<CMD>lfirst<CR>",                         desc = "First Location Item" },
+        { "]U",         "<CMD>llast<CR>",                          desc = "Last Location Item" },
         -- Diagnostics
-        { "[d", WK.diagnostic_goto_prev, desc = "Goto previous diagnostic" },
-        { "]d", WK.diagnostic_goto_next, desc = "Goto next diagnostic" },
+        { "[d",         WK.diagnostic_goto_prev,                   desc = "Goto previous diagnostic" },
+        { "]d",         WK.diagnostic_goto_next,                   desc = "Goto next diagnostic" },
         -- Illuminate
-        { "[r", require('illuminate').goto_prev_reference, desc = "Goto previous reference" },
-        { "]r", require('illuminate').goto_next_reference, desc = "Goto next reference" },
+        { "[r",         require('illuminate').goto_prev_reference, desc = "Goto previous reference" },
+        { "]r",         require('illuminate').goto_next_reference, desc = "Goto next reference" },
         -- Tabs
-        { "[t", "<CMD>tprev<CR>", desc = "Previous Tab Item" },
-        { "]t", "<CMD>tnext<CR>", desc = "Next Tab Item" },
-        { "[T", "<CMD>tfirst<CR>", desc = "First Tab Item" },
-        { "]T", "<CMD>tlast<CR>", desc = "Last Tab Item" },
+        { "[t",         "<CMD>tprev<CR>",                          desc = "Previous Tab Item" },
+        { "]t",         "<CMD>tnext<CR>",                          desc = "Next Tab Item" },
+        { "[T",         "<CMD>tfirst<CR>",                         desc = "First Tab Item" },
+        { "]T",         "<CMD>tlast<CR>",                          desc = "Last Tab Item" },
     },
     {
         mode = { "v" },
