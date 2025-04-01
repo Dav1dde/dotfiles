@@ -65,15 +65,18 @@ end
 --- which auto jumps to the only result.
 function LSP.make_autojump_on_list()
     local window = vim.api.nvim_get_current_win()
+    local buf = vim.api.nvim_win_get_buf(window)
+    local filename = vim.api.nvim_buf_get_name(buf)
     local lnum, col = unpack(vim.api.nvim_win_get_cursor(window))
 
     return function(list)
         if #list.items >= 1 and #list.items <= 2 then
             for _, item in ipairs(list.items) do
-                local in_line_range = item.lnum >= lnum and item.end_lnum <= lnum
-                local in_character_range = item.col >= col and item.end_col <= col
+                local in_file = item.filename == filename
+                local in_line_range = item.lnum <= lnum and item.end_lnum >= lnum
+                local in_col_range = item.col <= col and item.end_col >= col
 
-                if not in_line_range and not in_character_range then
+                if not (in_file and in_line_range and in_col_range) then
                     LSP.goto_location_item(item)
                     return
                 end
