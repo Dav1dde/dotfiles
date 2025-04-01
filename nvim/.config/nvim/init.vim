@@ -214,6 +214,8 @@ set spell
 set spelllang=en,de
 set spelloptions=noplainbuffer,camel
 
+autocmd FileType yaml,json setlocal nospell
+
 " Cleanup trailing whitespaces
 nnoremap <silent> <leader><space> :%s/\s\+$//<CR>:let @/=''<CR>:w<CR>:set nohlsearch<CR>
 
