@@ -32,39 +32,89 @@ nlspsettings.setup()
 
 local LSP = {}
 
-function LSP.make_find_into_goto_handler(name)
-    local handler = vim.lsp.handlers[name]
-    if handler == nil then
-        error('no parent handler for: ' .. name)
-    end
 
-    local inner = function(a, result, ctx, config)
-        if #result >= 1 and #result <= 2 then
-            local client = vim.lsp.get_client_by_id(ctx.client_id)
-            local pp = ctx.params.position
+--- Jumps to a location and focuses on it in the current window.
+---
+--- The passed location needs to follow the format as returned by
+--- `vim.util.locations_to_items()`.
+function LSP.goto_location_item(location)
+    local bufnr = vim.fn.bufadd(location.filename)
 
-            -- Find the one item that is not the one we requested
-            for _, item in ipairs(result) do
-                local rs = item.range['start']
-                local re = item.range['end']
-                local inLineRange = rs.line >= pp.line and re.line <= pp.line
-                local inCharacterRange = rs.line >= pp.line and re.line <= pp.line
+    -- Save position in jumplist
+    vim.cmd("normal! m'")
 
-                if not inLineRange and not inCharacterRange then
-                    vim.lsp.util.show_document(item, client.offset_encoding, { reuse_win = true })
+    -- Push a new item into tagstack
+    local from = { vim.fn.bufnr('%'), vim.fn.line('.'), vim.fn.col('.'), 0 }
+    local items = { { tagname = vim.fn.expand('<cword>'), from = from } }
+    vim.fn.settagstack(vim.fn.win_getid(), { items = items }, 't')
+
+    local win = vim.fn.win_findbuf(bufnr)[1] or vim.api.nvim_get_current_win()
+
+    vim.bo[bufnr].buflisted = true
+    vim.api.nvim_win_set_buf(win, bufnr)
+    vim.api.nvim_set_current_win(win)
+
+    vim.api.nvim_win_set_cursor(win, { location.lnum, location.col })
+    vim._with({ win = win }, function()
+        -- Open folds under the cursor
+        vim.cmd('normal! zv')
+    end)
+end
+
+--- Creates an `on_list` callback for LSP handlers which support an `on_list` callback,
+--- which auto jumps to the only result.
+function LSP.make_autojump_on_list()
+    local window = vim.api.nvim_get_current_win()
+    local lnum, col = unpack(vim.api.nvim_win_get_cursor(window))
+
+    return function(list)
+        if #list.items >= 1 and #list.items <= 2 then
+            for _, item in ipairs(list.items) do
+                local in_line_range = item.lnum >= lnum and item.end_lnum <= lnum
+                local in_character_range = item.col >= col and item.end_col <= col
+
+                if not in_line_range and not in_character_range then
+                    LSP.goto_location_item(item)
                     return
                 end
             end
         end
 
-        handler(a, result, ctx, config)
+        if #list.items > 1 then
+            -- Only set the quickfix list when there is more than 1 entry to show,
+            -- it is possible that the only entry is the entry where the cursor
+            -- is currently on, there is no need to show the quickfix list.
+            --
+            -- The case where the only entry is not on the cursor is already handled
+            -- above.
+            vim.fn.setqflist({}, ' ', list)
+            vim.cmd('botright copen')
+        end
     end
-
-    return { [name] = inner }
 end
 
-function LSP.make_handlers(...)
-    return vim.tbl_extend('force', ...)
+function LSP.references()
+    vim.lsp.buf.references(nil, {
+        on_list = LSP.make_autojump_on_list()
+    })
+end
+
+function LSP.declaration()
+    vim.lsp.buf.declaration({
+        on_list = LSP.make_autojump_on_list()
+    })
+end
+
+function LSP.definition()
+    vim.lsp.buf.definition({
+        on_list = LSP.make_autojump_on_list()
+    })
+end
+
+function LSP.implementation()
+    vim.lsp.buf.implementation({
+        on_list = LSP.make_autojump_on_list()
+    })
 end
 
 function LSP.setup_codelens_refresh(client, bufnr)
@@ -116,10 +166,10 @@ function LSP.on_attach(client, bufnr)
     vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
 
     -- See `:help vim.lsp.*`
-    nmap('gD', vim.lsp.buf.declaration, 'Goto Declaration')
-    nmap('gd', vim.lsp.buf.definition, 'Goto Definition')
-    nmap('gi', vim.lsp.buf.implementation, 'Goto Implementation')
-    nmap('gr', vim.lsp.buf.references, 'Show References / Goto Reference')
+    nmap('gD', LSP.declaration, 'Goto Declaration')
+    nmap('gd', LSP.definition, 'Goto Definition')
+    nmap('gi', LSP.implementation, 'Goto Implementation')
+    nmap('gr', LSP.references, 'Show References / Goto Reference')
     nmap('g0', require('telescope.builtin').lsp_document_symbols, 'Show Document Symbols')
     nmap('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Show Workspace Symbols')
 
@@ -145,11 +195,6 @@ end
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 local opts = {
     on_attach = LSP.on_attach,
-    handlers = LSP.make_handlers(
-    -- Declaration, Definition and Implementation already jump to the location if there is only a single choice
-        LSP.make_find_into_goto_handler('textDocument/references'),
-        {}
-    ),
     debounce_text_changes = 150,
     capabilities = capabilities,
     cmd_env = {
