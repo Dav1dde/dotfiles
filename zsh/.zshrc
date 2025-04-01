@@ -66,6 +66,7 @@ export PATH="/home/dav1d/.cargo/bin:$PATH"
 # User configuration
 export PYPY_IRC_TOPIC=1
 export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src
+export BAT_THEME="Monokai Extended"
 
 export SAVEHIST=500000
 export HISTSIZE=500000
