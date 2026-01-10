@@ -1,134 +1,7 @@
-local Path = require('plenary.path')
-
-local rooter = require('rooter');
-
-require('setup_lsp')
-require('setup_cmp')
-
-require('colorizer').setup()
-require('lualine').setup({ options = { theme = 'onedark' } })
-require('tabline').setup({ options = { show_filename_only = true } })
-require('fidget').setup()
-require('gitsigns').setup()
-require('which-key').setup()
-require('ibl').setup()
-require('bufdel').setup({
-    next = 'alternate',
-    quit = false,
-})
-require('marks').setup()
-require('Comment').setup()
--- require('autoclose').setup()
--- require('ultimate-autopair').setup({})
-require('nvim-autopairs').setup {}
-require("nvim-lightbulb").setup({
-    action_kinds = { 'quickfix', 'source' },
-    sign = { enabled = false },
-    virtual_text = { enabled = true },
-    autocmd = { enabled = true }
-})
-
-
-require('nvim-treesitter').setup {
-    highlight = {
-        enable = true,
-        disable = {},
-    },
-    indent = {
-        enable = false,
-        disable = {},
-    },
-    ensure_installed = {
-        'rust',
-        'javascript',
-        'typescript',
-        'html',
-        'tsx',
-        'python',
-    },
-    rainbow = {
-        enable = true,
-        extended_mode = true,
-    },
-    textsubjects = {
-        enable = true,
-        prev_selection = ',', -- (Optional) keymap to select the previous selection
-        keymaps = {
-            ['.'] = 'textsubjects-smart',
-            [';'] = 'textsubjects-container-outer',
-            ['i;'] = 'textsubjects-container-inner',
-        },
-    },
-    incremental_selection = {
-        enable = true,
-        keymaps = {
-            init_selection = '<C-n>',
-            node_incremental = '<C-n>',
-            scope_incremental = '<C-s>',
-            node_decremental = '<C-r>',
-        },
-    },
-}
-
-vim.o.foldenable = false
-vim.o.foldmethod = 'expr'
--- Default to treesitter folding
-vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
--- Prefer LSP folding if client supports it
-vim.api.nvim_create_autocmd('LspAttach', {
-    callback = function(args)
-        local client = vim.lsp.get_client_by_id(args.data.client_id)
-        if client:supports_method('textDocument/foldingRange') then
-            local win = vim.api.nvim_get_current_win()
-            vim.wo[win][0].foldexpr = 'v:lua.vim.lsp.foldexpr()'
-        end
-    end,
-})
-
-
-function project_directory(path)
-    return rooter.get_root(path) or vim.fn.expand('%:p:h')
-end
-
-function telescope_path_display(opts, path)
-    local p = Path:new(path)
-    p = Path:new(p:expand())
-    return p:make_relative(project_directory(path))
-end
-
-local actions = require('telescope.actions')
-
-require('telescope').setup {
-    extensions = {
-        ['ui-select'] = {
-            require('telescope.themes').get_dropdown {
-                -- even more opts
-            }
-        }
-    },
-    pickers = {
-        live_grep = {
-            additional_args = function(opts)
-                return { "--hidden" }
-            end
-        },
-    },
-    defaults = {
-        path_display = telescope_path_display,
-        mappings = {
-            i = {
-                ["<C-e>"] = { "<esc>", type = "command" },
-                ['<esc>'] = actions.close
-            },
-        },
-    }
-}
-
-require('telescope').load_extension('ui-select')
-
 local telescope_builtin = require('telescope.builtin')
 local telescope_sorters = require('telescope.sorters')
 local crates = require('crates')
+local rooter = require('utils.rooter')
 
 local WK = {}
 
@@ -151,14 +24,14 @@ end
 
 function WK.telescope_find_files()
     telescope_builtin.find_files({
-        cwd = project_directory(),
+        cwd = rooter.project_directory(),
         find_command = { 'rg', '--files', '--color', 'never', '--hidden', '--iglob', '!.git/*' },
     })
 end
 
 function WK.telescope_live_grep()
     telescope_builtin.live_grep({
-        cwd = project_directory()
+        cwd = rooter.project_directory()
     })
 end
 

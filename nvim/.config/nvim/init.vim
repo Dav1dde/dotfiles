@@ -1,112 +1,12 @@
-call plug#begin('~/.vim/plugged')
-
-""" Libs
-" The lib everyone needs
-Plug 'nvim-lua/plenary.nvim'
-
-""" LSP
-" Manage/Install LSPs
-Plug 'williamboman/mason.nvim'
-Plug 'williamboman/mason-lspconfig.nvim'
-
-" Lsp Config
-Plug 'neovim/nvim-lspconfig'
-" Global and per Project LSP Settings
-Plug 'tamago324/nlsp-settings.nvim'
-
-" Treesitter
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'nvim-treesitter/playground'
-" Tiny bit smarter text subjects
-Plug 'RRethy/nvim-treesitter-textsubjects'
-" Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-
-" nvim-cmp stuff
-Plug 'hrsh7th/nvim-cmp'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
-
-" Snippets
-Plug 'L3MON4D3/LuaSnip'
-Plug 'saadparwaiz1/cmp_luasnip'
-Plug 'rafamadriz/friendly-snippets'
-
-" Special LSP helpers
-Plug 'mrcjkb/rustaceanvim'
-Plug 'pmizio/typescript-tools.nvim'
-
-""" UI
-" Telescope for all things searching
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-ui-select.nvim'
-
-" Keybinds, setting up and previewing
-Plug 'folke/which-key.nvim'
-
-" Better errors and quickfix lists
-Plug 'folke/trouble.nvim'
-
-""" Language Support
-" Just Files
-Plug 'NoahTheDuke/vim-just'
-" Crates in Cargo.toml
-Plug 'saecki/crates.nvim'
-
-""" Git
-" Git Integration for Buffers
-Plug 'lewis6991/gitsigns.nvim'
-
-""" Utiltiy
-" Detect tabstop and shiftwidth automatically
-Plug 'tpope/vim-sleuth'
-" Toggle code with comments
-Plug 'numToStr/Comment.nvim'
-" Smart region expansion
-Plug 'terryma/vim-expand-region'
-" Buffer Management, delete buffer and keep the window
-Plug 'ojroques/nvim-bufdel'
-" Fancy Colors
-Plug 'norcalli/nvim-colorizer.lua'
-" Indent Guides
-Plug 'lukas-reineke/indent-blankline.nvim'
-" Highlight use of the word under the cursor
-Plug 'RRethy/vim-illuminate'
-" Show marks
-Plug 'chentoast/marks.nvim'
-" Autoclose brackets
-" Plug 'm4xshen/autoclose.nvim'
-" Plug 'altermo/ultimate-autopair.nvim'
-Plug 'windwp/nvim-autopairs'
-" Code Action Bubble
-Plug 'kosayoda/nvim-lightbulb'
-
-""" Design
-Plug 'hoob3rt/lualine.nvim'
-Plug 'kdheepak/tabline.nvim'
-" Show Notifications and LSP progress
-Plug 'j-hui/fidget.nvim'
-" File Type Icons
-Plug 'kyazdani42/nvim-web-devicons'
-Plug 'echasnovski/mini.icons'
-
-""" Themes
-Plug 'rktjmp/lush.nvim'
-Plug 'tanvirtin/monokai.nvim'
-Plug 'rafamadriz/neon'
-Plug 'marko-cerovac/material.nvim'
-Plug 'shaunsingh/moonlight.nvim'
-Plug 'adisen99/codeschool.nvim'
-Plug 'EdenEast/nightfox.nvim'
-Plug 'Yazeed1s/minimal.nvim'
-Plug 'sainnhe/sonokai'
-Plug 'folke/tokyonight.nvim'
-
-call plug#end()
-
 syntax on
 set termguicolors
 filetype plugin indent on
+
+" Early config before Lua
+let mapleader=" "
+
+""" Lua Configuration
+lua require('config.lazy')
 
 """ Theme
 let g:sonokai_disable_terminal_colors = 1
@@ -121,9 +21,6 @@ call sonokai#highlight('LightBulbVirtualText', s:palette.yellow, s:palette.none)
 " call sonokai#highlight('TSParameter', s:palette.purple, s:palette.none, 'italic')
 " hi TSParameter guifg='#f533d8'
 hi TSParameter guifg='#ffb8f4'
-
-""" Lua Configuration
-lua require('setup')
 
 
 """ Vim Config
@@ -173,7 +70,6 @@ vmap < <gv
 vmap > >gv
 
 "" Mappings
-let mapleader=" "
 
 " Expand and Shrink selection
 vmap v <Plug>(expand_region_expand)

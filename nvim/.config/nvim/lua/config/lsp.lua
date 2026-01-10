@@ -1,10 +1,7 @@
-local mason = require('mason');
 local mason_lspconfig = require('mason-lspconfig');
-local lspconfig = require('lspconfig')
 local nlspsettings = require('nlspsettings')
 
 -- rust-analyzer is initialized with rustaceanvim
--- typescript ist initialized with typescript-tools
 local servers = {
     cssls = {},
     eslint = {},
@@ -25,13 +22,11 @@ local servers = {
     },
 }
 
-mason.setup()
 mason_lspconfig.setup({ ensure_installed = vim.tbl_keys(servers) })
 
 nlspsettings.setup()
 
 local LSP = {}
-
 
 --- Jumps to a location and focuses on it in the current window.
 ---
@@ -216,5 +211,3 @@ vim.g.rustaceanvim = {
         end,
     })
 }
-
-require('typescript-tools').setup(opts)

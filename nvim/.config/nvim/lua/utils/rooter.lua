@@ -22,9 +22,16 @@ local function get_root(current)
             end
         end
     end
+
     return nil
 end
 
+local function project_directory(path)
+    return get_root(path) or vim.fn.expand('%:p:h')
+end
+
+
 return {
     get_root = get_root,
+    project_directory = project_directory,
 }
