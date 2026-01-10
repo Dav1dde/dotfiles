@@ -8,11 +8,6 @@ require('crates').setup({
     popup = {
         autofocus = true,
     },
-    completion = {
-        cmp = {
-            enabled = true,
-        },
-    },
 })
 
 cmp.setup({

@@ -206,7 +206,7 @@ local opts = {
 }
 
 for name, settings in pairs(servers) do
-    lspconfig[name].setup(vim.tbl_extend('force', opts, { settings = settings }))
+    vim.lsp.config(name, vim.tbl_extend('force', opts, { settings = settings }))
 end
 
 vim.g.rustaceanvim = {
