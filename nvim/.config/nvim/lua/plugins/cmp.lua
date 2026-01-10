@@ -11,8 +11,6 @@ return {
 
             'L3MON4D3/LuaSnip',
             'saadparwaiz1/cmp_luasnip',
-
-            'saecki/crates.nvim',
         },
         config = function()
             local cmp = require('cmp')
@@ -20,12 +18,6 @@ return {
 
             require('luasnip.loaders.from_vscode').lazy_load()
             luasnip.config.setup({})
-
-            require('crates').setup({
-                popup = {
-                    autofocus = true,
-                },
-            })
 
             cmp.setup({
                 snippet = {
@@ -80,13 +72,4 @@ return {
             })
         end,
     },
-    {
-        'saecki/crates.nvim',
-        lazy = true,
-        opts = {
-            popup = {
-                autofocus = true,
-            },
-        }
-    }
 }

@@ -1,6 +1,5 @@
 local telescope_builtin = require('telescope.builtin')
 local telescope_sorters = require('telescope.sorters')
-local crates = require('crates')
 local rooter = require('utils.rooter')
 
 local WK = {}
@@ -84,13 +83,6 @@ require('which-key').add({
         { "<C-Tab>",    WK.switch_mru_open_buffer,                 desc = "Switches to the most recently used open buffer" },
         { "<C-p>",      WK.telescope_find_files,                   desc = "Search Files" },
         { "<leader>W",  "<CMD>bd<CR>",                             desc = "Delete the current buffer" },
-        -- Crates
-        { "<leader>c",  group = "Crates" },
-        { "<leader>cU", crates.upgrade_crate,                      desc = "Upgrade Crate" },
-        { "<leader>cd", crates.show_dependencies_popup,            desc = "Show Crate Dependencies" },
-        { "<leader>cf", crates.show_features_popup,                desc = "Edit Crate Features" },
-        { "<leader>cu", crates.update_crate,                       desc = "Update Crate" },
-        { "<leader>cv", crates.show_versions_popup,                desc = "Show Crate Versions" },
         -- Telescope
         { "<leader>e",  WK.telescope_buffers,                      desc = "Search Buffers" },
         { "<leader>p",  WK.telescope_find_files,                   desc = "Search Files" },
@@ -131,10 +123,4 @@ require('which-key').add({
         { "[T",         "<CMD>tfirst<CR>",                         desc = "First Tab Item" },
         { "]T",         "<CMD>tlast<CR>",                          desc = "Last Tab Item" },
     },
-    {
-        mode = { "v" },
-        { "<leader>c",  group = "Crates" },
-        { "<leader>cU", crates.update_crates,  desc = "Upgrade selected Crates" },
-        { "<leader>cu", crates.upgrade_crates, desc = "Update selected Crates" },
-    }
 })
