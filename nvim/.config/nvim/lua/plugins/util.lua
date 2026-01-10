@@ -59,17 +59,6 @@ return {
 
     },
     {
-        --Code Action Bubble
-        'kosayoda/nvim-lightbulb',
-        event = 'VeryLazy',
-        opts = {
-            action_kinds = { 'quickfix', 'source' },
-            sign = { enabled = false },
-            virtual_text = { enabled = true },
-            autocmd = { enabled = true }
-        },
-    },
-    {
         -- Justfiles
         'NoahTheDuke/vim-just',
         ft = { 'just' },

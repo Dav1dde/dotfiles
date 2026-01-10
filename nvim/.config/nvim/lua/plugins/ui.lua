@@ -30,6 +30,7 @@ return {
     },
     {
         'folke/trouble.nvim',
-        cmd = { 'Trouble' }
+        cmd = { 'Trouble' },
+        opts = {}
     },
 }
