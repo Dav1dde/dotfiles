@@ -62,6 +62,13 @@ return {
                             fallback()
                         end
                     end, { 'i', 's' }),
+                    ['<A-y>'] = cmp.mapping(cmp.mapping.complete {
+                        config = {
+                            sources = cmp.config.sources {
+                                { name = 'minuet' },
+                            },
+                        },
+                    })
                 },
                 sources = {
                     { name = 'nvim_lsp' },
