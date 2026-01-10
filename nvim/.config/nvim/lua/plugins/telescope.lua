@@ -25,11 +25,6 @@ return {
                     },
                 },
                 defaults = {
-                    path_display = function(_, path)
-                        local p = Path:new(path)
-                        p = Path:new(p:expand())
-                        return p:make_relative(rooter.project_directory(path))
-                    end,
                     mappings = {
                         i = {
                             ["<C-e>"] = { "<esc>", type = "command" },

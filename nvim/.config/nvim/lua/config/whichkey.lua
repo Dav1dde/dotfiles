@@ -22,10 +22,24 @@ function WK.switch_mru_open_buffer()
 end
 
 function WK.telescope_find_files()
-    telescope_builtin.find_files({
-        cwd = rooter.project_directory(),
-        find_command = { 'rg', '--files', '--color', 'never', '--hidden', '--iglob', '!.git/*' },
-    })
+    WK._is_inside_work_tree = {}
+
+    local find_command = { 'rg', '--files', '--color', 'never', '--hidden', '--iglob', '!**/.git/*' }
+
+    local cwd = vim.fn.getcwd()
+    if WK._is_inside_work_tree[cwd] == nil then
+        vim.fn.system("git rev-parse --is-inside-work-tree")
+        WK._is_inside_work_tree[cwd] = vim.v.shell_error == 0
+    end
+
+    if WK._is_inside_work_tree[cwd] then
+        require("telescope.builtin").git_files({ find_command = find_command })
+    else
+        require("telescope.builtin").find_files({
+            cwd = rooter.project_directory(),
+            find_command = find_command,
+        })
+    end
 end
 
 function WK.telescope_live_grep()
