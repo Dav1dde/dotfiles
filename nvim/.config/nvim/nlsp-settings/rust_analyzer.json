@@ -1,7 +1,0 @@
-{
-    "rust-analyzer.cargo.allFeatures": true,
-    "rust-analyzer.inlayHints.parameterHints.enable": false,
-    "rust-analyzer.hover.show.enumVariants": 15,
-    "rust-analyzer.hover.show.fields": 15,
-    "rust-analyzer.hover.show.traitAssocItems": 3
-}

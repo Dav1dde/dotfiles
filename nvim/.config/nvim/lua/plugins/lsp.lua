@@ -3,8 +3,8 @@ return {
         'neovim/nvim-lspconfig',
         event = { 'BufReadPre', 'BufNewFile' },
         dependencies = {
-            { 'mason-org/mason.nvim',           opts = {} },
-            { 'mason-org/mason-lspconfig.nvim', config = function() end },
+            'mason-org/mason.nvim',
+            'mason-org/mason-lspconfig.nvim',
             'mrjones2014/codesettings.nvim',
         },
         config = function()
@@ -12,12 +12,21 @@ return {
         end
     },
     {
-        'nvimdev/lspsaga.nvim',
-        event = 'LspAttach',
+        'mason-org/mason.nvim',
+        opts = {}
+    },
+    {
+        'mason-org/mason-lspconfig.nvim',
         opts = {
-            lightbulb = {
-                sign = false,
-            },
+            ensure_installed = {
+                'cssls',
+                'eslint',
+                'emmet_ls',
+                'html',
+                'tailwindcss',
+                'pyright',
+                'lua_ls'
+            }
         }
     },
     {
@@ -28,6 +37,9 @@ return {
             vim.g.rustaceanvim = {
                 load_vscode_settings = false,
                 server = {
+                    cmd_env = {
+                        RUSTUP_TOOLCHAIN = "stable"
+                    },
                     default_settings = {
                         ['rust-analyzer'] = {
                             cargo = {
@@ -52,11 +64,15 @@ return {
             }
         end
     },
-    -- {
-    --     'tamago324/nlsp-settings.nvim',
-    --     lazy = true,
-    --     opts = {}
-    -- },
+    {
+        'nvimdev/lspsaga.nvim',
+        event = 'LspAttach',
+        opts = {
+            lightbulb = {
+                sign = false,
+            },
+        }
+    },
     {
         'mrjones2014/codesettings.nvim',
         lazy = true,
