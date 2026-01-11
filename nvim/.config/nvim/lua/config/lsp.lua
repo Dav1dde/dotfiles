@@ -1,5 +1,14 @@
 local mason_lspconfig = require('mason-lspconfig');
-local nlspsettings = require('nlspsettings')
+-- local nlspsettings = require('nlspsettings')
+
+vim.lsp.config('*', {
+    before_init = function(_, config)
+        local codesettings = require('codesettings')
+        print(vim.inspect(config.settings))
+        codesettings.with_local_settings(config.name, config)
+        print(vim.inspect(config.settings))
+    end,
+})
 
 -- rust-analyzer is initialized with rustaceanvim
 local servers = {
@@ -24,7 +33,7 @@ local servers = {
 
 mason_lspconfig.setup({ ensure_installed = vim.tbl_keys(servers) })
 
-nlspsettings.setup()
+-- nlspsettings.setup()
 
 local LSP = {}
 
@@ -204,10 +213,10 @@ for name, settings in pairs(servers) do
     vim.lsp.config(name, vim.tbl_extend('force', opts, { settings = settings }))
 end
 
-vim.g.rustaceanvim = {
-    server = vim.tbl_extend('error', opts, {
-        settings = function(project_root)
-            return nlspsettings.get_settings(project_root, 'rust_analyzer')
-        end,
-    })
-}
+-- vim.g.rustaceanvim = {
+    -- server = vim.tbl_extend('error', opts, {
+    --     settings = function(project_root)
+    --         return nlspsettings.get_settings(project_root, 'rust_analyzer')
+    --     end,
+    -- })
+-- }
