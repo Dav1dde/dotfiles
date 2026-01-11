@@ -49,6 +49,8 @@ set wildmode=longest:full,full  " Completion mode
 
 set scrolloff=3                 " Keep cursor 3 lines away from window border
 
+set nofoldenable                " Do not fold by default
+
 set tags=./tags;/               " set tags location
 
 " automatically save when losing focus

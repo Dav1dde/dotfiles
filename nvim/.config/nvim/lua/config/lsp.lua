@@ -8,11 +8,8 @@ vim.lsp.config('*', {
     debounce_text_changes = 150,
 })
 
-local lsp_attach = vim.api.nvim_create_augroup('my.lsp.attach', {
-    clear = true
-})
 vim.api.nvim_create_autocmd('LspAttach', {
-    group = lsp_attach,
+    group = vim.api.nvim_create_augroup('my.lsp.attach', { clear = true }),
     callback = function(ev)
         local bufnr = ev.buf
         local client = assert(vim.lsp.get_client_by_id(ev.data.client_id))
@@ -50,6 +47,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
             nmap('god', function() vim.cmd.RustLsp('openDocs') end, 'Open Documentation')
             nmap('goc', function() vim.cmd.RustLsp('openCargo') end, 'Open Cargo.toml')
             nmap('gop', function() vim.cmd.RustLsp('parentModule') end, 'Open Parent Module')
+        end
+
+        if client:supports_method('textDocument/foldingRange') then
+            vim.wo[0][0].foldexpr = 'v:lua.vim.lsp.foldexpr()'
         end
     end,
 })
