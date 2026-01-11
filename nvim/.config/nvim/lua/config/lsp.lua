@@ -1,7 +1,6 @@
 local LSP = require('utils.lsp')
 
 vim.lsp.config('*', {
-    capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
     before_init = function(_, config)
         local codesettings = require('codesettings')
         codesettings.with_local_settings(config.name, config)

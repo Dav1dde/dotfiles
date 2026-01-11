@@ -2,9 +2,6 @@ return {
     {
         'milanglacier/minuet-ai.nvim',
         opts = {
-            cmp = {
-                enable_auto_complete = false,
-            },
             context_window = 32768,
             provider = 'claude',
             n_completions = 5,
@@ -28,7 +25,7 @@ return {
             provider_options = {
                 claude = {
                     max_tokens = 512,
-                    model = 'claude-haiku-4-5',
+                    model = 'claude-opus-4-5',
                     stream = true,
                 },
             },
