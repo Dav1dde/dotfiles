@@ -1,6 +1,12 @@
 return {
     { 'nvim-lua/plenary.nvim', lazy = true },
     {
+        "nvim-pack/nvim-spectre",
+        lazy = true,
+        cmd = "Spectre",
+        opts = {}
+    },
+    {
         'ojroques/nvim-bufdel',
         lazy = true,
         opts = {
