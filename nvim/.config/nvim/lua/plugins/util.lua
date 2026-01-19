@@ -68,5 +68,11 @@ return {
         -- Justfiles
         'NoahTheDuke/vim-just',
         ft = { 'just' },
+    },
+    {
+        "folke/todo-comments.nvim",
+        event = { 'BufReadPre', 'BufNewFile' },
+        dependencies = { "nvim-lua/plenary.nvim" },
+        opts = {}
     }
 }
