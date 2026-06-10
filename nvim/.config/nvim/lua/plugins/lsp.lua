@@ -31,11 +31,10 @@ return {
     },
     {
         'mrcjkb/rustaceanvim',
-        version = '^7',
+        version = '^9',
         lazy = false, -- This plugin is already lazy
         init = function()
             vim.g.rustaceanvim = {
-                load_vscode_settings = false,
                 server = {
                     cmd_env = {
                         RUSTUP_TOOLCHAIN = "stable"
@@ -44,6 +43,9 @@ return {
                         ['rust-analyzer'] = {
                             cargo = {
                                 allFeatures = true,
+                            },
+                            check = {
+                                command = "check",
                             },
                             inlayHints = {
                                 parameterHints = {
@@ -75,9 +77,8 @@ return {
     },
     {
         'mrjones2014/codesettings.nvim',
-        lazy = true,
+        lazy = false,
         cmd = { 'Codesettings' },
-        ft = { 'json', 'jsonc', 'lua' },
         opts = {
             live_reload = true,
         },

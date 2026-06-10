@@ -1,6 +1,12 @@
 return {
     {
         'milanglacier/minuet-ai.nvim',
+        keys = {
+            { '<A-[>', mode = 'i' },
+            { '<A-]>', mode = 'i' },
+            { '<A-y>', mode = 'i' },
+        },
+        cmd = { 'Minuet' },
         opts = {
             context_window = 32768,
             provider = 'claude',
@@ -24,8 +30,8 @@ return {
             },
             provider_options = {
                 claude = {
-                    max_tokens = 512,
-                    model = 'claude-opus-4-5',
+                    max_tokens = 1024,
+                    model = 'claude-opus-4-6',
                     stream = true,
                 },
             },
@@ -34,10 +40,5 @@ return {
             require('minuet').setup(opts)
             require('utils.minuet-fidget'):init()
         end,
-        keys = {
-            { '<A-[>', mode = 'i' },
-            { '<A-]>', mode = 'i' },
-            { '<A-y>', mode = 'i' },
-        },
     },
 }
